@@ -8,10 +8,8 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-# Setup logging
 logging.basicConfig(level=logging.DEBUG)
 
-# Load models
 models = {}
 for nutrient in ["N", "P", "K"]:
     model_path = join("..", "data", f"model_{nutrient}.pkl")

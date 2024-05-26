@@ -3,6 +3,7 @@ import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
 import React, { useState } from "react";
+import { Spinner } from "@nextui-org/spinner";
 
 export default function Home() {
   const [n, setN] = useState("");
@@ -25,8 +26,13 @@ export default function Home() {
       K: "Sufficient",
     },
   });
+  const [hasPrediction, setHasPrediction] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
+    setLoading(true);
+    setHasPrediction(false);
+
     const data = {
       N: parseFloat(n),
       P: parseFloat(p),
@@ -48,6 +54,8 @@ export default function Home() {
 
     const result = await response.json();
     setPrediction(result);
+    setHasPrediction(true);
+    setLoading(false);
   };
 
   const cropOptions = [
@@ -182,68 +190,81 @@ export default function Home() {
           Predict
         </Button>
       </div>
-      <div className="flex flex-col flex-wrap w-full gap-4 rounded-2xl bg-white/60 p-6 backdrop-blur-lg dark:bg-zinc-800">
-        <h1 className="text-xl font-bold sm:text-2xl md:text-4xl">
-          Predicted Nutrient
-        </h1>
-        <p className="text-gray-500 dark:text-gray-400">
-          Based on the soil parameters and crop selection, the predicted
-          nutrient levels are:
-        </p>
-        <div className="rounded-lg bg-gray-200 p-4 text-2xl font-bold dark:bg-zinc-900/50">
-          <div>N: {prediction.predictions.N}</div>
-          <div>P: {prediction.predictions.P}</div>
-          <div>K: {prediction.predictions.K}</div>
+
+      {loading && (
+        <div className="flex justify-center items-center w-full">
+          <Spinner size="md" />
         </div>
-        <div className="space-y-2">
+      )}
+
+      {hasPrediction && !loading && (
+        <div
+          className={`flex flex-col flex-wrap w-full gap-4 rounded-2xl bg-white/60 p-6 backdrop-blur-lg dark:bg-zinc-800 ${
+            hasPrediction ? "" : "hidden"
+          }`}
+        >
+          <h1 className="text-xl font-bold sm:text-2xl md:text-4xl">
+            Predicted Nutrient
+          </h1>
           <p className="text-gray-500 dark:text-gray-400">
-            Based on the predicted nutrient levels and the selected crop (
-            {
-              cropOptions.find((option) => option.value.toString() === crop)
-                ?.label
-            }
-            ), the following recommendations are provided:
+            Based on the soil parameters and crop selection, the predicted
+            nutrient levels are:
           </p>
-          <div className="rounded-lg bg-gray-200 p-4 dark:bg-zinc-900/50">
-            <div className="flex items-center justify-between">
-              <span>Nitrogen (N):</span>
-              <span
-                className={`text-${
-                  prediction.comparisons.N === "Sufficient" ? "green" : "red"
-                }-500`}
-              >
-                {prediction.comparisons.N === "Sufficient"
-                  ? "Sufficient"
-                  : "Insufficient, needs to be increased"}
-              </span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span>Phosphorus (P):</span>
-              <span
-                className={`text-${
-                  prediction.comparisons.P === "Sufficient" ? "green" : "red"
-                }-500`}
-              >
-                {prediction.comparisons.P === "Sufficient"
-                  ? "Sufficient"
-                  : "Insufficient, needs to be increased"}
-              </span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span>Potassium (K):</span>
-              <span
-                className={`text-${
-                  prediction.comparisons.K === "Sufficient" ? "green" : "red"
-                }-500`}
-              >
-                {prediction.comparisons.K === "Sufficient"
-                  ? "Sufficient"
-                  : "Insufficient, needs to be increased"}
-              </span>
+          <div className="rounded-lg bg-gray-200 p-4 text-2xl font-bold dark:bg-zinc-900/50">
+            <div>N: {prediction.predictions.N}</div>
+            <div>P: {prediction.predictions.P}</div>
+            <div>K: {prediction.predictions.K}</div>
+          </div>
+          <div className="space-y-2">
+            <p className="text-gray-500 dark:text-gray-400">
+              Based on the predicted nutrient levels and the selected crop (
+              {
+                cropOptions.find((option) => option.value.toString() === crop)
+                  ?.label
+              }
+              ), the following recommendations are provided:
+            </p>
+            <div className="rounded-lg bg-gray-200 p-4 dark:bg-zinc-900/50">
+              <div className="flex items-center justify-between">
+                <span>Nitrogen (N):</span>
+                <span
+                  className={`text-${
+                    prediction.comparisons.N === "Sufficient" ? "green" : "red"
+                  }-500`}
+                >
+                  {prediction.comparisons.N === "Sufficient"
+                    ? "Sufficient"
+                    : "Insufficient, needs to be increased"}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Phosphorus (P):</span>
+                <span
+                  className={`text-${
+                    prediction.comparisons.P === "Sufficient" ? "green" : "red"
+                  }-500`}
+                >
+                  {prediction.comparisons.P === "Sufficient"
+                    ? "Sufficient"
+                    : "Insufficient, needs to be increased"}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Potassium (K):</span>
+                <span
+                  className={`text-${
+                    prediction.comparisons.K === "Sufficient" ? "green" : "red"
+                  }-500`}
+                >
+                  {prediction.comparisons.K === "Sufficient"
+                    ? "Sufficient"
+                    : "Insufficient, needs to be increased"}
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }
