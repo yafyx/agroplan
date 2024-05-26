@@ -30,33 +30,17 @@ import {
 import { Logo } from "@/components/icons";
 
 export const Navbar = () => {
-  const searchInput = (
-    <Input
-      aria-label="Search"
-      classNames={{
-        inputWrapper: "bg-default-100",
-        input: "text-sm",
-      }}
-      endContent={
-        <Kbd className="hidden lg:inline-block" keys={["command"]}>
-          K
-        </Kbd>
-      }
-      labelPlacement="outside"
-      placeholder="Search..."
-      startContent={
-        <SearchIcon className="flex-shrink-0 text-base pointer-events-none text-default-400" />
-      }
-      type="search"
-    />
-  );
-
   return (
-    <NextUINavbar maxWidth="xl" position="sticky">
+    <NextUINavbar
+      maxWidth="full"
+      position="sticky"
+      isBordered
+      className="bg-transparent"
+    >
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex items-center justify-start gap-1" href="/">
-            <p className="font-bold text-inherit md:text-2xl">AgriPlan</p>
+            <p className="text-4xl font-extrabold text-inherit">AgriPlan</p>
           </NextLink>
         </NavbarBrand>
       </NavbarContent>
