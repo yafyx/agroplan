@@ -6,19 +6,30 @@ import React, { useState } from "react";
 
 export default function Home() {
   const [n, setN] = useState("");
-  // const [p, setP] = useState("");
+  const [p, setP] = useState("");
   const [k, setK] = useState("");
   const [ph, setPh] = useState("");
   const [temperature, setTemperature] = useState("");
   const [humidity, setHumidity] = useState("");
   const [rainfall, setRainfall] = useState("");
   const [crop, setCrop] = useState("");
-  const [prediction, setPrediction] = useState("");
+  const [prediction, setPrediction] = useState({
+    predictions: {
+      N: 0,
+      P: 0,
+      K: 0,
+    },
+    comparisons: {
+      N: "Sufficient",
+      P: "Sufficient",
+      K: "Sufficient",
+    },
+  });
 
   const handleSubmit = async () => {
     const data = {
       N: parseFloat(n),
-      // P: parseFloat(p),
+      P: parseFloat(p),
       K: parseFloat(k),
       pH: parseFloat(ph),
       Temperature: parseFloat(temperature),
@@ -36,7 +47,7 @@ export default function Home() {
     });
 
     const result = await response.json();
-    setPrediction(result[0]);
+    setPrediction(result);
   };
 
   const cropOptions = [
@@ -67,7 +78,7 @@ export default function Home() {
   return (
     <section className="flex flex-wrap items-center justify-center gap-4 p-8 sm:flex-nowrap sm:px-8 sm:gap-8 md:flex-nowrap md:gap-16 backdrop-blur-lg bg-white/50 dark:bg-zinc-900 rounded-2xl">
       <div className="flex flex-col flex-wrap w-full gap-4">
-        <h1 className="text-xl font-bold sm:text-2xl md:text-3xl">
+        <h1 className="text-xl font-bold sm:text-2xl md:text-4xl">
           Soil Nutrient Predict
         </h1>
         <p className="text-gray-500 dark:text-gray-400">
@@ -99,6 +110,7 @@ export default function Home() {
         <div className="grid grid-cols-2 gap-4">
           <Input
             type="number"
+            step="0.01"
             label="N :"
             labelPlacement="outside"
             placeholder="Enter"
@@ -106,16 +118,18 @@ export default function Home() {
             onChange={(e) => setN(e.target.value)}
             className="font-semibold"
           />
-          {/* <Input
+          <Input
             type="number"
+            step="0.01"
             label="P :"
             labelPlacement="outside"
             placeholder="Enter"
             value={p}
             onChange={(e) => setP(e.target.value)}
-          /> */}
+          />
           <Input
             type="number"
+            step="0.01"
             label="K :"
             labelPlacement="outside"
             placeholder="Enter"
@@ -125,6 +139,7 @@ export default function Home() {
           />
           <Input
             type="number"
+            step="0.01"
             label="pH :"
             labelPlacement="outside"
             placeholder="Enter"
@@ -134,6 +149,7 @@ export default function Home() {
           />
           <Input
             type="number"
+            step="0.01"
             label="Temperature :"
             labelPlacement="outside"
             placeholder="Enter"
@@ -143,6 +159,7 @@ export default function Home() {
           />
           <Input
             type="number"
+            step="0.01"
             label="Humidity :"
             labelPlacement="outside"
             placeholder="Enter"
@@ -152,6 +169,7 @@ export default function Home() {
           />
           <Input
             type="number"
+            step="0.01"
             label="Rainfall :"
             labelPlacement="outside"
             placeholder="Enter"
@@ -170,10 +188,60 @@ export default function Home() {
         </h1>
         <p className="text-gray-500 dark:text-gray-400">
           Based on the soil parameters and crop selection, the predicted
-          nutrient level is:
+          nutrient levels are:
         </p>
-        <div className="rounded-lg bg-gray-200 p-4 text-2xl font-bold dark:bg-gray-800">
-          {prediction}
+        <div className="rounded-lg bg-gray-200 p-4 text-2xl font-bold dark:bg-zinc-900/50">
+          <div>N: {prediction.predictions.N}</div>
+          <div>P: {prediction.predictions.P}</div>
+          <div>K: {prediction.predictions.K}</div>
+        </div>
+        <div className="space-y-2">
+          <p className="text-gray-500 dark:text-gray-400">
+            Based on the predicted nutrient levels and the selected crop (
+            {
+              cropOptions.find((option) => option.value.toString() === crop)
+                ?.label
+            }
+            ), the following recommendations are provided:
+          </p>
+          <div className="rounded-lg bg-gray-200 p-4 dark:bg-zinc-900/50">
+            <div className="flex items-center justify-between">
+              <span>Nitrogen (N):</span>
+              <span
+                className={`text-${
+                  prediction.comparisons.N === "Sufficient" ? "green" : "red"
+                }-500`}
+              >
+                {prediction.comparisons.N === "Sufficient"
+                  ? "Sufficient"
+                  : "Insufficient, needs to be increased"}
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Phosphorus (P):</span>
+              <span
+                className={`text-${
+                  prediction.comparisons.P === "Sufficient" ? "green" : "red"
+                }-500`}
+              >
+                {prediction.comparisons.P === "Sufficient"
+                  ? "Sufficient"
+                  : "Insufficient, needs to be increased"}
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Potassium (K):</span>
+              <span
+                className={`text-${
+                  prediction.comparisons.K === "Sufficient" ? "green" : "red"
+                }-500`}
+              >
+                {prediction.comparisons.K === "Sufficient"
+                  ? "Sufficient"
+                  : "Insufficient, needs to be increased"}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
