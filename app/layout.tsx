@@ -7,35 +7,46 @@ import { Navbar } from "@/components/navbar";
 import clsx from "clsx";
 
 export const metadata: Metadata = {
-	title: {
-		default: siteConfig.name,
-		template: `%s - ${siteConfig.name}`,
-	},
-	description: siteConfig.description,
-	icons: {
-		icon: "/favicon.ico",
-	},
+  title: {
+    default: siteConfig.name,
+    template: `%s - ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export const viewport: Viewport = {
-	themeColor: [
-		{ media: "(prefers-color-scheme: light)", color: "white" },
-		{ media: "(prefers-color-scheme: dark)", color: "black" },
-	],
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-	return (
-		<html lang="en" suppressHydrationWarning>
-			<head />
-			<body className={clsx("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
-				<Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
-					<div className="relative flex flex-col h-screen">
-						<Navbar />
-						<main className="container flex-grow px-6 py-8 mx-auto max-w-7xl">{children}</main>
-					</div>
-				</Providers>
-			</body>
-		</html>
-	);
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head />
+      <body
+        className={clsx(
+          "min-h-screen bg-gradient-to-br from-[#f0f0f0] to-[#e0e0e0] dark:from-[#000000] dark:to-[#000000] font-sans antialiased",
+          fontSans.variable
+        )}
+      >
+        <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+          <div className="relative flex flex-col h-screen">
+            <Navbar />
+            <main className="container flex-grow px-6 py-8 mx-auto max-w-7xl flex items-center justify-center">
+              {children}
+            </main>
+          </div>
+        </Providers>
+      </body>
+    </html>
+  );
 }

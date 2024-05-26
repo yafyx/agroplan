@@ -5,8 +5,8 @@ import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
 import React, { useState } from "react";
 
 export default function Home() {
-  // const [n, setN] = useState("");
-  const [p, setP] = useState("");
+  const [n, setN] = useState("");
+  // const [p, setP] = useState("");
   const [k, setK] = useState("");
   const [ph, setPh] = useState("");
   const [temperature, setTemperature] = useState("");
@@ -17,8 +17,8 @@ export default function Home() {
 
   const handleSubmit = async () => {
     const data = {
-      // N: parseFloat(n),
-      P: parseFloat(p),
+      N: parseFloat(n),
+      // P: parseFloat(p),
       K: parseFloat(k),
       pH: parseFloat(ph),
       Temperature: parseFloat(temperature),
@@ -65,19 +65,19 @@ export default function Home() {
   ];
 
   return (
-    <section className="flex flex-wrap items-center justify-center gap-4 px-4 sm:flex-nowrap sm:px-8 sm:gap-8 md:flex-nowrap md:gap-16">
+    <section className="flex flex-wrap items-center justify-center gap-4 p-8 sm:flex-nowrap sm:px-8 sm:gap-8 md:flex-nowrap md:gap-16 backdrop-blur-lg bg-white/50 dark:bg-zinc-900 rounded-2xl">
       <div className="flex flex-col flex-wrap w-full gap-4">
-        <h1 className="text-xl font-bold sm:text-2xl md:text-4xl">
-          Soil Predict
+        <h1 className="text-xl font-bold sm:text-2xl md:text-3xl">
+          Soil Nutrient Predict
         </h1>
         <p className="text-gray-500 dark:text-gray-400">
           Enter the soil parameters:
         </p>
         <Autocomplete
           labelPlacement="outside"
-          label="Select Crop"
+          label="Crop"
           placeholder="Search a crop"
-          className="w-full"
+          className="w-full font-semibold"
           onSelectionChange={(selected) => {
             if (selected) {
               const selectedItem = cropOptions.find(
@@ -97,22 +97,23 @@ export default function Home() {
           ))}
         </Autocomplete>
         <div className="grid grid-cols-2 gap-4">
-          {/* <Input
+          <Input
             type="number"
             label="N :"
             labelPlacement="outside"
             placeholder="Enter"
             value={n}
             onChange={(e) => setN(e.target.value)}
-          /> */}
-          <Input
+            className="font-semibold"
+          />
+          {/* <Input
             type="number"
             label="P :"
             labelPlacement="outside"
             placeholder="Enter"
             value={p}
             onChange={(e) => setP(e.target.value)}
-          />
+          /> */}
           <Input
             type="number"
             label="K :"
@@ -120,6 +121,7 @@ export default function Home() {
             placeholder="Enter"
             value={k}
             onChange={(e) => setK(e.target.value)}
+            className="font-semibold"
           />
           <Input
             type="number"
@@ -128,6 +130,7 @@ export default function Home() {
             placeholder="Enter"
             value={ph}
             onChange={(e) => setPh(e.target.value)}
+            className="font-semibold"
           />
           <Input
             type="number"
@@ -136,6 +139,7 @@ export default function Home() {
             placeholder="Enter"
             value={temperature}
             onChange={(e) => setTemperature(e.target.value)}
+            className="font-semibold"
           />
           <Input
             type="number"
@@ -144,6 +148,7 @@ export default function Home() {
             placeholder="Enter"
             value={humidity}
             onChange={(e) => setHumidity(e.target.value)}
+            className="font-semibold"
           />
           <Input
             type="number"
@@ -152,18 +157,22 @@ export default function Home() {
             placeholder="Enter"
             value={rainfall}
             onChange={(e) => setRainfall(e.target.value)}
+            className="font-semibold"
           />
         </div>
         <Button className="w-full" onPress={handleSubmit}>
           Predict
         </Button>
       </div>
-      <div className="flex flex-col flex-wrap w-full gap-4 ">
-        <h1 className="text-xl font-bold sm:text-2xl md:text-4xl">Output</h1>
+      <div className="flex flex-col flex-wrap w-full gap-4 rounded-2xl bg-white/60 p-6 backdrop-blur-lg dark:bg-zinc-800">
+        <h1 className="text-xl font-bold sm:text-2xl md:text-4xl">
+          Predicted Nutrient
+        </h1>
         <p className="text-gray-500 dark:text-gray-400">
-          Based on the soil parameters you provided, the recommended is:
+          Based on the soil parameters and crop selection, the predicted
+          nutrient level is:
         </p>
-        <div className="rounded-lg bg-gray-100 p-4 text-2xl font-bold dark:bg-gray-800">
+        <div className="rounded-lg bg-gray-200 p-4 text-2xl font-bold dark:bg-gray-800">
           {prediction}
         </div>
       </div>

@@ -7,7 +7,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-with open(join("..", "data", "model.pkl"), "rb") as file:
+with open(join("..", "data", "model_P.pkl"), "rb") as file:
     model = joblib.load(file)
 
 
