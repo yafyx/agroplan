@@ -5,6 +5,7 @@ import { fontSans } from "@/config/fonts";
 import { Providers } from "./providers";
 import { Navbar } from "@/components/navbar";
 import clsx from "clsx";
+import { GeistMono } from "geist/font/mono";
 
 export const metadata: Metadata = {
   title: {
@@ -35,7 +36,7 @@ export default function RootLayout({
       <body
         className={clsx(
           "min-h-screen bg-gradient-to-br from-[#f0f0f0] to-[#e0e0e0] dark:from-[#000000] dark:to-[#000000] font-sans antialiased",
-          fontSans.variable
+          GeistMono.className
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
