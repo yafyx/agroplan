@@ -22,20 +22,29 @@ for nutrient in ["N", "P", "K"]:
 @app.route("/api/predict", methods=["POST"])
 def predict():
     data = request.get_json()
-    input_features = [
-        float(data["N"]),
-        float(data["P"]),
-        float(data["K"]),
+    common_features = [
         float(data["pH"]),
         float(data["Temperature"]),
         float(data["Humidity"]),
         float(data["Rainfall"]),
+        int(data["Crop"]),  # Add crop here
     ]
 
-    logging.debug(f"Received input features: {input_features}")
+    nutrient_values = {
+        "N": float(data["N"]),
+        "P": float(data["P"]),
+        "K": float(data["K"]),
+    }
+
+    logging.debug(f"Received input features: {nutrient_values} and {common_features}")
 
     predictions = {}
     for nutrient in ["N", "P", "K"]:
+        # Create a list of features for the prediction excluding the current nutrient
+        input_features = [
+            nutrient_values[n] for n in ["N", "P", "K"] if n != nutrient
+        ] + common_features
+        logging.debug(f"Input features for {nutrient} prediction: {input_features}")
         prediction = models[nutrient].predict([input_features])[0]
         logging.debug(f"Prediction for {nutrient}: {prediction}")
         predictions[nutrient] = prediction
