@@ -199,24 +199,24 @@ export default function Home() {
 
       {hasPrediction && !loading && (
         <div
-          className={`flex flex-col flex-wrap w-full gap-4 rounded-2xl bg-white/60 p-6 backdrop-blur-lg dark:bg-zinc-800 ${
+          className={`flex flex-col flex-wrap w-full gap-4 rounded-2xl bg-white/60 p-4 sm:p-6 backdrop-blur-lg dark:bg-zinc-800 ${
             hasPrediction ? "" : "hidden"
           }`}
         >
-          <h1 className="text-xl font-bold sm:text-2xl md:text-4xl">
+          <h1 className="text-lg sm:text-xl md:text-2xl lg:text-4xl font-bold">
             Predicted Nutrient
           </h1>
-          <p className="text-gray-500 dark:text-gray-400">
+          <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base">
             Based on the soil parameters and crop selection, the predicted
             nutrient levels are:
           </p>
-          <div className="rounded-lg bg-gray-200 p-4 text-2xl font-bold dark:bg-zinc-900/50">
+          <div className="rounded-lg bg-gray-200 p-2 sm:p-4 text-xl font-bold dark:bg-zinc-900/50">
             <div>N: {prediction.predictions.N}</div>
             <div>P: {prediction.predictions.P}</div>
             <div>K: {prediction.predictions.K}</div>
           </div>
           <div className="space-y-2">
-            <p className="text-gray-500 dark:text-gray-400">
+            <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base">
               Based on the predicted nutrient levels and the selected crop (
               {
                 cropOptions.find((option) => option.value.toString() === crop)
@@ -224,8 +224,8 @@ export default function Home() {
               }
               ), the following recommendations are provided:
             </p>
-            <div className="rounded-lg bg-gray-200 p-4 dark:bg-zinc-900/50">
-              <div className="flex items-center justify-between">
+            <div className="rounded-lg bg-gray-200 p-2 sm:p-4 dark:bg-zinc-900/50">
+              <div className="flex flex-col sm:flex-row items-center justify-between">
                 <span>Nitrogen (N):</span>
                 <span
                   className={`text-${
@@ -237,7 +237,7 @@ export default function Home() {
                     : "Insufficient, needs to be increased"}
                 </span>
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row items-center justify-between">
                 <span>Phosphorus (P):</span>
                 <span
                   className={`text-${
@@ -249,7 +249,7 @@ export default function Home() {
                     : "Insufficient, needs to be increased"}
                 </span>
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row items-center justify-between">
                 <span>Potassium (K):</span>
                 <span
                   className={`text-${
