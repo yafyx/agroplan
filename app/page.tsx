@@ -1,27 +1,30 @@
 "use client";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
+import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
 import React, { useState } from "react";
 
 export default function Home() {
-  const [n, setN] = useState("");
+  // const [n, setN] = useState("");
   const [p, setP] = useState("");
   const [k, setK] = useState("");
   const [ph, setPh] = useState("");
   const [temperature, setTemperature] = useState("");
   const [humidity, setHumidity] = useState("");
   const [rainfall, setRainfall] = useState("");
+  const [crop, setCrop] = useState("");
   const [prediction, setPrediction] = useState("");
 
   const handleSubmit = async () => {
     const data = {
-      N: parseFloat(n),
+      // N: parseFloat(n),
       P: parseFloat(p),
       K: parseFloat(k),
       pH: parseFloat(ph),
       Temperature: parseFloat(temperature),
       Humidity: parseFloat(humidity),
       Rainfall: parseFloat(rainfall),
+      Crop: parseInt(crop),
     };
 
     const response = await fetch("http://localhost:5328/api/predict", {
@@ -36,6 +39,31 @@ export default function Home() {
     setPrediction(result[0]);
   };
 
+  const cropOptions = [
+    { label: "Apple", value: 0 },
+    { label: "Banana", value: 1 },
+    { label: "Rice", value: 2 },
+    { label: "Jute", value: 3 },
+    { label: "Watermelon", value: 4 },
+    { label: "Maize", value: 5 },
+    { label: "Chickpea", value: 6 },
+    { label: "Kidney Beans", value: 7 },
+    { label: "Moth Beans", value: 9 },
+    { label: "Mungbean", value: 10 },
+    { label: "Blackgram", value: 11 },
+    { label: "Lentil", value: 12 },
+    { label: "Pomegranate", value: 13 },
+    { label: "Mango", value: 15 },
+    { label: "Grapes", value: 16 },
+    { label: "Muskmelon", value: 17 },
+    { label: "Orange", value: 18 },
+    { label: "Papaya", value: 19 },
+    { label: "Coconut", value: 20 },
+    { label: "Cotton", value: 21 },
+    { label: "Coffee", value: 22 },
+    { label: "Pigeon Peas", value: 23 },
+  ];
+
   return (
     <section className="flex flex-wrap items-center justify-center gap-4 px-4 sm:flex-nowrap sm:px-8 sm:gap-8 md:flex-nowrap md:gap-16">
       <div className="flex flex-col flex-wrap w-full gap-4">
@@ -44,16 +72,39 @@ export default function Home() {
         </h1>
         <p className="text-gray-500 dark:text-gray-400">
           Enter the soil parameters:
-        </p>{" "}
+        </p>
+        <Autocomplete
+          labelPlacement="outside"
+          label="Select Crop"
+          placeholder="Search a crop"
+          className="w-full"
+          onSelectionChange={(selected) => {
+            if (selected) {
+              const selectedItem = cropOptions.find(
+                (option) => option.value.toString() === selected
+              );
+              setCrop(selectedItem ? selectedItem.value.toString() : "");
+            }
+          }}
+        >
+          {cropOptions.map((option) => (
+            <AutocompleteItem
+              key={option.value}
+              value={option.value.toString()}
+            >
+              {option.label}
+            </AutocompleteItem>
+          ))}
+        </Autocomplete>
         <div className="grid grid-cols-2 gap-4">
-          <Input
+          {/* <Input
             type="number"
             label="N :"
             labelPlacement="outside"
             placeholder="Enter"
             value={n}
             onChange={(e) => setN(e.target.value)}
-          />
+          /> */}
           <Input
             type="number"
             label="P :"
