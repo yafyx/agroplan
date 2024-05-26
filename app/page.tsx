@@ -93,6 +93,7 @@ export default function Home() {
           Enter the soil parameters:
         </p>
         <Autocomplete
+          variant="faded"
           labelPlacement="outside"
           label="Crop"
           placeholder="Search a crop"
@@ -117,6 +118,7 @@ export default function Home() {
         </Autocomplete>
         <div className="grid grid-cols-2 gap-4">
           <Input
+            variant="faded"
             type="number"
             step="0.01"
             label="N :"
@@ -127,6 +129,7 @@ export default function Home() {
             className="font-semibold"
           />
           <Input
+            variant="faded"
             type="number"
             step="0.01"
             label="P :"
@@ -136,6 +139,7 @@ export default function Home() {
             onChange={(e) => setP(e.target.value)}
           />
           <Input
+            variant="faded"
             type="number"
             step="0.01"
             label="K :"
@@ -146,6 +150,7 @@ export default function Home() {
             className="font-semibold"
           />
           <Input
+            variant="faded"
             type="number"
             step="0.01"
             label="pH :"
@@ -156,6 +161,7 @@ export default function Home() {
             className="font-semibold"
           />
           <Input
+            variant="faded"
             type="number"
             step="0.01"
             label="Temperature :"
@@ -166,6 +172,7 @@ export default function Home() {
             className="font-semibold"
           />
           <Input
+            variant="faded"
             type="number"
             step="0.01"
             label="Humidity :"
@@ -176,6 +183,7 @@ export default function Home() {
             className="font-semibold"
           />
           <Input
+            variant="faded"
             type="number"
             step="0.01"
             label="Rainfall :"
@@ -210,10 +218,25 @@ export default function Home() {
             Based on the soil parameters and crop selection, the predicted
             nutrient levels are:
           </p>
-          <div className="rounded-lg bg-gray-200 p-2 sm:p-4 text-xl font-bold dark:bg-zinc-900/50">
-            <div>N: {prediction.predictions.N}</div>
-            <div>P: {prediction.predictions.P}</div>
-            <div>K: {prediction.predictions.K}</div>
+          <div className="rounded-lg bg-gray-200 p-2 sm:p-4 text-xl font-medium dark:bg-zinc-900/50">
+            <div>
+              N:
+              <span className="text-4xl font-semibold">
+                {prediction.predictions.N.toFixed(2)}
+              </span>
+            </div>
+            <div>
+              P:
+              <span className="text-4xl font-semibold">
+                {prediction.predictions.P.toFixed(2)}
+              </span>
+            </div>
+            <div>
+              K:
+              <span className="text-4xl font-semibold">
+                {prediction.predictions.K.toFixed(2)}
+              </span>
+            </div>
           </div>
           <div className="space-y-2">
             <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base">
@@ -225,42 +248,52 @@ export default function Home() {
               ), the following recommendations are provided:
             </p>
             <div className="rounded-lg bg-gray-200 p-2 sm:p-4 dark:bg-zinc-900/50">
-              <div className="flex flex-col sm:flex-row items-center justify-between">
-                <span>Nitrogen (N):</span>
-                <span
-                  className={`text-${
-                    prediction.comparisons.N === "Sufficient" ? "green" : "red"
-                  }-500`}
-                >
-                  {prediction.comparisons.N === "Sufficient"
-                    ? "Sufficient"
-                    : "Insufficient, needs to be increased"}
-                </span>
-              </div>
-              <div className="flex flex-col sm:flex-row items-center justify-between">
-                <span>Phosphorus (P):</span>
-                <span
-                  className={`text-${
-                    prediction.comparisons.P === "Sufficient" ? "green" : "red"
-                  }-500`}
-                >
-                  {prediction.comparisons.P === "Sufficient"
-                    ? "Sufficient"
-                    : "Insufficient, needs to be increased"}
-                </span>
-              </div>
-              <div className="flex flex-col sm:flex-row items-center justify-between">
-                <span>Potassium (K):</span>
-                <span
-                  className={`text-${
-                    prediction.comparisons.K === "Sufficient" ? "green" : "red"
-                  }-500`}
-                >
-                  {prediction.comparisons.K === "Sufficient"
-                    ? "Sufficient"
-                    : "Insufficient, needs to be increased"}
-                </span>
-              </div>
+              <table>
+                <tbody>
+                  <tr className="border-b border-b-black/20 dark:border-b-white/20 transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                    <td>Nitrogen (N):</td>
+                    <td
+                      className={`p-2 text-right text-xs sm:text-sm text-${
+                        prediction.comparisons.N === "Sufficient"
+                          ? "green"
+                          : "red"
+                      }-500`}
+                    >
+                      {prediction.comparisons.N === "Sufficient"
+                        ? "Sufficient"
+                        : "Insufficient, needs to be increased"}
+                    </td>
+                  </tr>
+                  <tr className="border-b border-b-black/20 dark:border-b-white/20  hover:bg-muted/50 data-[state=selected]:bg-muted">
+                    <td>Phosphorus (P):</td>
+                    <td
+                      className={`p-2 text-right text-xs sm:text-sm text-${
+                        prediction.comparisons.P === "Sufficient"
+                          ? "green"
+                          : "red"
+                      }-500`}
+                    >
+                      {prediction.comparisons.P === "Sufficient"
+                        ? "Sufficient"
+                        : "Insufficient, needs to be increased"}
+                    </td>
+                  </tr>
+                  <tr className="transition-colors hover:bg-muted/50">
+                    <td>Potassium (K):</td>
+                    <td
+                      className={`p-2 text-right text-xs sm:text-sm text-${
+                        prediction.comparisons.K === "Sufficient"
+                          ? "green"
+                          : "red"
+                      }-500`}
+                    >
+                      {prediction.comparisons.K === "Sufficient"
+                        ? "Sufficient"
+                        : "Insufficient, needs to be increased"}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

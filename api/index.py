@@ -27,7 +27,7 @@ def predict():
         float(data["Temperature"]),
         float(data["Humidity"]),
         float(data["Rainfall"]),
-        int(data["Crop"]),  # Add crop here
+        int(data["Crop"]),
     ]
 
     nutrient_values = {
@@ -40,7 +40,6 @@ def predict():
 
     predictions = {}
     for nutrient in ["N", "P", "K"]:
-        # Create a list of features for the prediction excluding the current nutrient
         input_features = [
             nutrient_values[n] for n in ["N", "P", "K"] if n != nutrient
         ] + common_features
