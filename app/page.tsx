@@ -194,16 +194,16 @@ export default function Home() {
             className="font-semibold"
           />
         </div>
-        <Button className="w-full" onPress={handleSubmit}>
+        <Button isLoading={loading} className="w-full" onPress={handleSubmit}>
           Predict
         </Button>
       </div>
 
-      {loading && (
+      {/* {loading && (
         <div className="flex justify-center items-center w-full">
-          <Spinner size="md" />
+          <Spinner color="warning" size="md" />
         </div>
-      )}
+      )} */}
 
       {hasPrediction && !loading && (
         <div
