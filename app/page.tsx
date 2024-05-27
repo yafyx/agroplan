@@ -28,10 +28,45 @@ export default function Home() {
   });
   const [hasPrediction, setHasPrediction] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async () => {
+    if (!n) {
+      setError("Field 'n' is required.");
+      return;
+    }
+    if (!p) {
+      setError("Field 'p' is required.");
+      return;
+    }
+    if (!k) {
+      setError("Field 'k' is required.");
+      return;
+    }
+    if (!ph) {
+      setError("Field 'ph' is required.");
+      return;
+    }
+    if (!temperature) {
+      setError("Field 'temperature' is required.");
+      return;
+    }
+    if (!humidity) {
+      setError("Field 'humidity' is required.");
+      return;
+    }
+    if (!rainfall) {
+      setError("Field 'rainfall' is required.");
+      return;
+    }
+    if (!crop) {
+      setError("Field 'crop' is required.");
+      return;
+    }
+
     setLoading(true);
     setHasPrediction(false);
+    setError("");
 
     const data = {
       N: parseFloat(n),
@@ -44,21 +79,26 @@ export default function Home() {
       Crop: parseInt(crop),
     };
 
-    const response = await fetch(
-      "https://agri-plan-api.vercel.app/api/predict",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+    try {
+      const response = await fetch(
+        "https://agri-plan-api.vercel.app/api/predict",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
         },
-        body: JSON.stringify(data),
-      }
-    );
+      );
 
-    const result = await response.json();
-    setPrediction(result);
-    setHasPrediction(true);
-    setLoading(false);
+      const result = await response.json();
+      setPrediction(result);
+      setHasPrediction(true);
+    } catch (error) {
+      setError("Failed to fetch prediction. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const cropOptions = [
@@ -87,8 +127,8 @@ export default function Home() {
   ];
 
   return (
-    <section className="flex flex-wrap items-center justify-center gap-4 p-8 sm:flex-nowrap sm:px-8 sm:gap-8 md:flex-nowrap md:gap-16 backdrop-blur-lg bg-white/50 dark:bg-zinc-900 rounded-2xl">
-      <div className="flex flex-col flex-wrap w-full gap-4">
+    <section className="flex flex-wrap items-center justify-center gap-4 rounded-2xl bg-white/50 p-8 backdrop-blur-lg dark:bg-zinc-900 sm:flex-nowrap sm:gap-8 sm:px-8 md:flex-nowrap md:gap-16">
+      <div className="flex w-full flex-col flex-wrap gap-4">
         <h1 className="text-xl font-bold sm:text-2xl md:text-4xl">
           Soil Nutrient Predict
         </h1>
@@ -104,7 +144,7 @@ export default function Home() {
           onSelectionChange={(selected) => {
             if (selected) {
               const selectedItem = cropOptions.find(
-                (option) => option.value.toString() === selected
+                (option) => option.value.toString() === selected,
               );
               setCrop(selectedItem ? selectedItem.value.toString() : "");
             }
@@ -197,6 +237,7 @@ export default function Home() {
             className="font-semibold"
           />
         </div>
+        {error && <p className="font-semibold text-red-500">{error}</p>}
         <Button
           isLoading={loading}
           className="w-full bg-black text-white dark:bg-white dark:text-black"
@@ -206,26 +247,18 @@ export default function Home() {
         </Button>
       </div>
 
-      {/* {loading && (
-        <div className="flex justify-center items-center w-full">
-          <Spinner color="warning" size="md" />
-        </div>
-      )} */}
-
       {hasPrediction && !loading && (
         <div
-          className={`flex flex-col flex-wrap w-full gap-4 rounded-2xl bg-white/60 p-4 sm:p-6 backdrop-blur-lg dark:bg-zinc-800 ${
-            hasPrediction ? "" : "hidden"
-          }`}
+          className={`flex w-full flex-col flex-wrap gap-4 rounded-2xl bg-white/60 p-4 backdrop-blur-lg dark:bg-zinc-800 sm:p-6`}
         >
-          <h1 className="text-lg sm:text-xl md:text-2xl lg:text-4xl font-bold">
+          <h1 className="text-lg font-bold sm:text-xl md:text-2xl lg:text-4xl">
             Predicted Nutrient
           </h1>
-          <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base">
+          <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
             Based on the soil parameters and crop selection, the predicted
             nutrient levels are:
           </p>
-          <div className="rounded-lg bg-gray-200 p-2 sm:p-4 text-xl font-medium dark:bg-zinc-900/50">
+          <div className="rounded-lg bg-gray-200 p-2 text-xl font-medium dark:bg-zinc-900/50 sm:p-4">
             <div>
               N:
               <span className="text-4xl font-semibold">
@@ -246,7 +279,7 @@ export default function Home() {
             </div>
           </div>
           <div className="space-y-2">
-            <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base">
+            <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
               Based on the predicted nutrient levels and the selected crop (
               {
                 cropOptions.find((option) => option.value.toString() === crop)
@@ -254,10 +287,10 @@ export default function Home() {
               }
               ), the following recommendations are provided:
             </p>
-            <div className="rounded-lg bg-gray-200 p-2 sm:p-4 dark:bg-zinc-900/50">
+            <div className="rounded-lg bg-gray-200 p-2 dark:bg-zinc-900/50 sm:p-4">
               <table>
                 <tbody>
-                  <tr className="border-b border-b-black/20 dark:border-b-white/20 transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                  <tr className="hover:bg-muted/50 data-[state=selected]:bg-muted border-b border-b-black/20 transition-colors dark:border-b-white/20">
                     <td>Nitrogen (N):</td>
                     <td
                       className={`p-2 text-right text-xs sm:text-sm text-${
@@ -271,7 +304,7 @@ export default function Home() {
                         : "Insufficient, needs to be increased"}
                     </td>
                   </tr>
-                  <tr className="border-b border-b-black/20 dark:border-b-white/20  hover:bg-muted/50 data-[state=selected]:bg-muted">
+                  <tr className="hover:bg-muted/50 data-[state=selected]:bg-muted border-b  border-b-black/20 dark:border-b-white/20">
                     <td>Phosphorus (P):</td>
                     <td
                       className={`p-2 text-right text-xs sm:text-sm text-${
@@ -285,7 +318,7 @@ export default function Home() {
                         : "Insufficient, needs to be increased"}
                     </td>
                   </tr>
-                  <tr className="transition-colors hover:bg-muted/50">
+                  <tr className="hover:bg-muted/50 transition-colors">
                     <td>Potassium (K):</td>
                     <td
                       className={`p-2 text-right text-xs sm:text-sm text-${
