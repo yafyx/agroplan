@@ -44,7 +44,7 @@ export default function Home() {
       Crop: parseInt(crop),
     };
 
-    const response = await fetch("http://localhost:5328/api/predict", {
+    const response = await fetch("/api/predict", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
