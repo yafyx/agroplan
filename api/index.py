@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 models = {}
 for nutrient in ["N", "P", "K"]:
-    model_path = join("..", "data", f"model_{nutrient}.pkl")
+    model_path = join("data", f"model_{nutrient}.pkl")
     logging.debug(f"Loading model from {model_path}")
     with open(model_path, "rb") as file:
         models[nutrient] = joblib.load(file)
