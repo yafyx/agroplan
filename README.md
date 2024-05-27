@@ -1,6 +1,6 @@
-# Next.js & NextUI Template
+# AgriPlan
 
-This is a template for creating applications using Next.js 14 (app directory) and NextUI (v2).
+AgriPlan is a hybrid web application built with Next.js and Flask, combining a powerful frontend interface with a robust backend API. This innovative application allows users to predict the optimal crop based on soil parameters provided.
 
 ## Technologies Used
 
@@ -11,41 +11,12 @@ This is a template for creating applications using Next.js 14 (app directory) an
 - [TypeScript](https://www.typescriptlang.org/)
 - [Framer Motion](https://www.framer.com/motion/)
 - [next-themes](https://github.com/pacocoursey/next-themes)
+- [Flask](https://flask.palletsprojects.com/en/3.0.x/)
 
-## How to Use
+## How It Works
 
-### Use the template with create-next-app
+1. **Input Soil Parameters**: Users input various soil parameters including nitrogen, phosphorus, potassium, pH level, temperature, humidity, and rainfall.
 
-To create a new project based on this template using `create-next-app`, run the following command:
+2. **Prediction Generation**: The frontend sends these parameters to the Flask backend API, which processes the input data through a machine learning model.
 
-```bash
-npx create-next-app -e https://github.com/nextui-org/next-app-template
-```
-
-### Install dependencies
-
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
-
-```bash
-npm install
-```
-
-### Run the development server
-
-```bash
-npm run dev
-```
-
-### Setup pnpm (optional)
-
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
-
-```bash
-public-hoist-pattern[]=*@nextui-org/*
-```
-
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
-
-## License
-
-Licensed under the [MIT license](https://github.com/nextui-org/next-app-template/blob/main/LICENSE).
+3. **Crop Recommendation**: Based on the processed data, the Flask API returns a prediction for the most suitable crop, which is displayed to the user on the Next.js frontend.
