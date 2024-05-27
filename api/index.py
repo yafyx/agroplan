@@ -18,7 +18,7 @@ for nutrient in ["N", "P", "K"]:
     logging.debug(f"Loaded model for {nutrient}")
 
 
-@app.route("/api/predict", methods=["GET", "POST"])
+@app.route("/api/predict", methods=["POST"])
 def predict():
     data = request.get_json()
     common_features = [
