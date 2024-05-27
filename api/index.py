@@ -78,6 +78,10 @@ class handler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(response.get_data())
 
+    def do_GET(self):
+        self.send_response(405)
+        self.end_headers()
+
 
 # The following line is only needed if you want to test the server locally
 # if __name__ == "__main__":
