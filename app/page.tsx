@@ -197,7 +197,11 @@ export default function Home() {
             className="font-semibold"
           />
         </div>
-        <Button isLoading={loading} className="w-full" onPress={handleSubmit}>
+        <Button
+          isLoading={loading}
+          className="w-full bg-black text-white dark:bg-white dark:text-black"
+          onPress={handleSubmit}
+        >
           Predict
         </Button>
       </div>
