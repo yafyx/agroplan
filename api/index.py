@@ -1,4 +1,5 @@
 import logging
+from http.server import BaseHTTPRequestHandler
 from os.path import join
 
 import joblib
@@ -59,9 +60,25 @@ def predict():
     }
 
     response = {"predictions": predictions, "comparisons": comparisons}
-    logging.debug(f"Response: {response}")
+
     return jsonify(response)
 
 
-if __name__ != "__main__":
-    app = app
+class handler(BaseHTTPRequestHandler):
+    def do_POST(self):
+        content_length = int(self.headers["Content-Length"])
+        body = self.rfile.read(content_length)
+
+        with app.test_client() as client:
+            response = client.post(
+                "/api/predict", data=body, content_type="application/json"
+            )
+            self.send_response(response.status_code)
+            self.send_header("Content-type", "application/json")
+            self.end_headers()
+            self.wfile.write(response.get_data())
+
+
+# The following line is only needed if you want to test the server locally
+# if __name__ == "__main__":
+#     app.run(port=5328)
