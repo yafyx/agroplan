@@ -159,39 +159,39 @@ export default function Home() {
             </AutocompleteItem>
           ))}
         </Autocomplete>
+        <Input
+          variant="faded"
+          type="number"
+          step="0.01"
+          label="N :"
+          labelPlacement="outside"
+          placeholder="Enter"
+          value={n}
+          onChange={(e) => setN(e.target.value)}
+          className="font-semibold"
+        />
+        <Input
+          variant="faded"
+          type="number"
+          step="0.01"
+          label="P :"
+          labelPlacement="outside"
+          placeholder="Enter"
+          value={p}
+          onChange={(e) => setP(e.target.value)}
+        />
+        <Input
+          variant="faded"
+          type="number"
+          step="0.01"
+          label="K :"
+          labelPlacement="outside"
+          placeholder="Enter"
+          value={k}
+          onChange={(e) => setK(e.target.value)}
+          className="font-semibold"
+        />
         <div className="grid grid-cols-2 gap-4">
-          <Input
-            variant="faded"
-            type="number"
-            step="0.01"
-            label="N :"
-            labelPlacement="outside"
-            placeholder="Enter"
-            value={n}
-            onChange={(e) => setN(e.target.value)}
-            className="font-semibold"
-          />
-          <Input
-            variant="faded"
-            type="number"
-            step="0.01"
-            label="P :"
-            labelPlacement="outside"
-            placeholder="Enter"
-            value={p}
-            onChange={(e) => setP(e.target.value)}
-          />
-          <Input
-            variant="faded"
-            type="number"
-            step="0.01"
-            label="K :"
-            labelPlacement="outside"
-            placeholder="Enter"
-            value={k}
-            onChange={(e) => setK(e.target.value)}
-            className="font-semibold"
-          />
           <Input
             variant="faded"
             type="number"
