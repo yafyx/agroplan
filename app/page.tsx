@@ -3,7 +3,6 @@ import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
 import React, { useState } from "react";
-import { Spinner } from "@nextui-org/spinner";
 
 export default function Home() {
   const [n, setN] = useState("");
