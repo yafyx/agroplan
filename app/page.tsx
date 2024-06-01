@@ -1,3 +1,4 @@
+//page.tsx
 "use client";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
@@ -126,8 +127,8 @@ export default function Home() {
   ];
 
   return (
-    <section className="flex flex-wrap items-center justify-center gap-4 p-8 rounded-2xl bg-white/50 backdrop-blur-lg dark:bg-zinc-900 sm:flex-nowrap sm:gap-8 sm:px-8 md:flex-nowrap md:gap-16">
-      <div className="flex flex-col flex-wrap w-full gap-4">
+    <section className="flex flex-wrap items-center justify-center gap-4 rounded-2xl bg-white/50 p-8 backdrop-blur-lg dark:bg-zinc-900 sm:flex-nowrap sm:gap-8 sm:px-8 md:flex-nowrap md:gap-16">
+      <div className="flex w-full flex-col flex-wrap gap-4">
         <h1 className="text-xl font-bold sm:text-2xl md:text-4xl">
           Soil Nutrient Predict
         </h1>
@@ -239,7 +240,7 @@ export default function Home() {
         {error && <p className="font-semibold text-red-500">{error}</p>}
         <Button
           isLoading={loading}
-          className="w-full text-white bg-black dark:bg-white dark:text-black"
+          className="w-full bg-black text-white dark:bg-white dark:text-black"
           onPress={handleSubmit}
         >
           Predict
@@ -257,7 +258,7 @@ export default function Home() {
             Based on the soil parameters and crop selection, the predicted
             nutrient levels are:
           </p>
-          <div className="p-2 text-xl font-medium bg-gray-200 rounded-lg dark:bg-zinc-900/50 sm:p-4">
+          <div className="rounded-lg bg-gray-200 p-2 text-xl font-medium dark:bg-zinc-900/50 sm:p-4">
             <div>
               N:
               <span className="text-4xl font-semibold">
@@ -286,49 +287,43 @@ export default function Home() {
               }
               ), the following recommendations are provided:
             </p>
-            <div className="p-2 bg-gray-200 rounded-lg dark:bg-zinc-900/50 sm:p-4">
+            <div className="rounded-lg bg-gray-200 p-2 dark:bg-zinc-900/50 sm:p-4">
               <table>
                 <tbody>
                   <tr className="hover:bg-muted/50 data-[state=selected]:bg-muted border-b border-b-black/20 transition-colors dark:border-b-white/20">
                     <td>Nitrogen (N):</td>
                     <td
                       className={`p-2 text-right text-xs sm:text-sm text-${
-                        prediction.comparisons.N === "Sufficient"
+                        prediction.comparisons.N.includes("Sufficient")
                           ? "green"
                           : "red"
                       }-500`}
                     >
-                      {prediction.comparisons.N === "Sufficient"
-                        ? "Sufficient"
-                        : "Insufficient, needs to be increased"}
+                      {prediction.comparisons.N}
                     </td>
                   </tr>
                   <tr className="hover:bg-muted/50 data-[state=selected]:bg-muted border-b  border-b-black/20 dark:border-b-white/20">
                     <td>Phosphorus (P):</td>
                     <td
                       className={`p-2 text-right text-xs sm:text-sm text-${
-                        prediction.comparisons.P === "Sufficient"
+                        prediction.comparisons.P.includes("Sufficient")
                           ? "green"
                           : "red"
                       }-500`}
                     >
-                      {prediction.comparisons.P === "Sufficient"
-                        ? "Sufficient"
-                        : "Insufficient, needs to be increased"}
+                      {prediction.comparisons.P}
                     </td>
                   </tr>
-                  <tr className="transition-colors hover:bg-muted/50">
+                  <tr className="hover:bg-muted/50 transition-colors">
                     <td>Potassium (K):</td>
                     <td
                       className={`p-2 text-right text-xs sm:text-sm text-${
-                        prediction.comparisons.K === "Sufficient"
+                        prediction.comparisons.K.includes("Sufficient")
                           ? "green"
                           : "red"
                       }-500`}
                     >
-                      {prediction.comparisons.K === "Sufficient"
-                        ? "Sufficient"
-                        : "Insufficient, needs to be increased"}
+                      {prediction.comparisons.K}
                     </td>
                   </tr>
                 </tbody>
