@@ -1,4 +1,3 @@
-//page.tsx
 "use client";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
@@ -130,7 +129,7 @@ export default function Home() {
     <section className="flex flex-wrap items-center justify-center gap-4 rounded-2xl bg-white/50 p-8 backdrop-blur-lg dark:bg-zinc-900 sm:flex-nowrap sm:gap-8 sm:px-8 md:flex-nowrap md:gap-16">
       <div className="flex w-full flex-col flex-wrap gap-4">
         <h1 className="text-xl font-bold sm:text-2xl md:text-4xl">
-          Soil Nutrient Predict
+          Soil Nutrient Prediction
         </h1>
         <p className="text-gray-500 dark:text-gray-400">
           Enter the soil parameters:
@@ -252,7 +251,7 @@ export default function Home() {
           className={`flex w-full flex-col flex-wrap gap-4 rounded-2xl bg-white/60 p-4 backdrop-blur-lg dark:bg-zinc-800 sm:p-6`}
         >
           <h1 className="text-lg font-bold sm:text-xl md:text-2xl lg:text-4xl">
-            Predicted Nutrient
+            Predicted Nutrient Levels
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
             Based on the soil parameters and crop selection, the predicted
