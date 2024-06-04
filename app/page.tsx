@@ -263,18 +263,21 @@ export default function Home() {
               <span className="text-4xl font-semibold">
                 {prediction.predictions.N.toFixed(2)}
               </span>
+              <span className="text-sm"> ppm</span>
             </div>
             <div>
               P:
               <span className="text-4xl font-semibold">
                 {prediction.predictions.P.toFixed(2)}
               </span>
+              <span className="text-sm"> ppm</span>
             </div>
             <div>
               K:
               <span className="text-4xl font-semibold">
                 {prediction.predictions.K.toFixed(2)}
               </span>
+              <span className="text-sm"> ppm</span>
             </div>
           </div>
           <div className="space-y-2">
@@ -287,7 +290,7 @@ export default function Home() {
               ), the following recommendations are provided:
             </p>
             <div className="rounded-lg bg-gray-200 p-2 dark:bg-zinc-900/50 sm:p-4">
-              <table>
+              <table className="w-full">
                 <tbody>
                   <tr className="hover:bg-muted/50 data-[state=selected]:bg-muted border-b border-b-black/20 transition-colors dark:border-b-white/20">
                     <td>Nitrogen (N):</td>
