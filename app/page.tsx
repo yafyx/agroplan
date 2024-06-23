@@ -170,7 +170,18 @@ export default function Home() {
       console.error('Error fetching sensor data:', error);
     }
   };
+
+  const dataPredictedNutrient = {
+    N: parseFloat(n) - prediction.predictions.N,
+    P: parseFloat(p) - prediction.predictions.P,
+    K: parseFloat(k) - prediction.predictions.K
+  }
   
+  const dataAdditionalFertilizer = {
+    Urea: (100 / 46 *  dataPredictedNutrient.N * 2.4).toFixed(2),
+    SP_36: (100 / 36 * dataPredictedNutrient.P * 2.4).toFixed(2),
+    KCL: (100 / 60 * dataPredictedNutrient.K * 2.4).toFixed(2),
+  };
 
 
   return (
@@ -410,6 +421,25 @@ export default function Home() {
                     >
                       {prediction.comparisons.K}
                     </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
+              Additional Fertilizer Recomendation :
+            </p>
+            <div className="p-2 bg-gray-200 rounded-lg dark:bg-zinc-900/50 sm:p-4">
+              <table className="w-full">
+                <tbody>
+                  <tr className="hover:bg-muted/50 data-[state=selected]:bg-muted border-b border-b-black/20 transition-colors dark:border-b-white/20">
+                    <td>{parseFloat(dataAdditionalFertilizer.Urea) < 0 ? "Urea: " + parseFloat(dataAdditionalFertilizer.Urea) * -1 + " kg/Ha" : ""}</td>
+                  </tr>
+                  <tr className="hover:bg-muted/50 data-[state=selected]:bg-muted border-b  border-b-black/20 dark:border-b-white/20">
+                    <td>{ parseFloat(dataAdditionalFertilizer.SP_36) < 0 ? "SP-36: " + parseFloat(dataAdditionalFertilizer.SP_36) * -1 + " kg/Ha" : ""}</td>
+                  </tr>
+                  <tr className="transition-colors hover:bg-muted/50">
+                    <td>{ parseFloat(dataAdditionalFertilizer.KCL) < 0 ? "SAP: " + parseFloat(dataAdditionalFertilizer.KCL) * -1 + " kg/Ha" : ""}</td>
                   </tr>
                 </tbody>
               </table>
