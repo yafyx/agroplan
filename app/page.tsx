@@ -2,18 +2,8 @@
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-interface SensorData {
-  pH: number;
-  EC: number;
-  soilMoisture: number;
-  temperature: number;
-  nitrogen: number;
-  phosphorus: number;
-  potassium: number;
-  eh: number;
-}
 
 export default function Home() {
   const [n, setN] = useState("");
@@ -137,6 +127,12 @@ export default function Home() {
     { label: "Pigeon Peas", value: 23 },
   ];
 
+  
+  const inputOptions = [
+    {label: "Sensoric System", value: 1},
+    {label: "Manual Input", value: 2 },
+  ]
+
   const getDataThingspeak = async () => {
     try {
       const response = await fetch("https://api.thingspeak.com/channels/2321454/feeds.json?results=1");
@@ -175,17 +171,6 @@ export default function Home() {
     }
   };
   
-  useEffect(() => {
-    if (select === "Sensoric System") {
-      getDataThingspeak();
-    }
-  }, [select]);
-  
-
-  const inputOptions = [
-    { label: "Sensoric System"},
-    { label: "Manual Input"},
-  ]
 
 
   return (
@@ -197,30 +182,34 @@ export default function Home() {
         <p className="text-gray-500 dark:text-gray-400">
           Enter the soil parameters:
         </p>
-        <Autocomplete
-          variant="faded"
-          labelPlacement="outside"
-          label="Select Data Source"
-          placeholder="Sensoric System | Manual Input"
-          className="w-full font-semibold"
-          onSelectionChange={(selected) => {
-            if (selected) {
-              const selectedItem = inputOptions.find(
-                (option) => option.label.toString() === selected,
-              );
-              setSelect(selectedItem ? selectedItem.label.toString() : "");
+      <Autocomplete
+        variant="faded"
+        labelPlacement="outside"
+        label="Select Data Source"
+        placeholder="Sensoric System | Manual Input"
+        className="w-full font-semibold"
+        onSelectionChange={(selected) => {
+          if (selected) {
+            const selectedItem = inputOptions.find(
+              (option) => option.value.toString() === selected,
+            );
+            setSelect(selectedItem ? selectedItem.value.toString() : "");
+            if (selectedItem?.value === 1) {
+              getDataThingspeak();
             }
-          }}
-        >
-          {inputOptions.map((option) => (
-            <AutocompleteItem
-              key={option.label}
-              value={option.label.toString()}
-            >
-              {option.label}
-            </AutocompleteItem>
-          ))}
-        </Autocomplete>
+          }
+        }}
+      >
+        {inputOptions.map((option) => (
+          <AutocompleteItem
+            key={option.value}
+            value={option.value.toString()}
+          >
+            {option.label}
+          </AutocompleteItem>
+        ))}
+      </Autocomplete>
+
         <Autocomplete
           variant="faded"
           labelPlacement="outside"
@@ -255,7 +244,7 @@ export default function Home() {
           value={n}
           onChange={(e) => setN(e.target.value)}
           className="font-semibold"
-          isDisabled={select === "Sensoric System"}
+          isDisabled={select === "1"}
         />
         <Input
           variant="faded"
@@ -266,7 +255,7 @@ export default function Home() {
           placeholder="Enter"
           value={p}
           onChange={(e) => setP(e.target.value)}
-          isDisabled={select === "Sensoric System"}
+          isDisabled={select === "1"}
         />
         <Input
           variant="faded"
@@ -278,7 +267,7 @@ export default function Home() {
           value={k}
           onChange={(e) => setK(e.target.value)}
           className="font-semibold"
-          isDisabled={select === "Sensoric System"}
+          isDisabled={select === "1"}
         />
         <div className="grid grid-cols-2 gap-4">
           <Input
@@ -291,7 +280,7 @@ export default function Home() {
             value={ph}
             onChange={(e) => setPh(e.target.value)}
             className="font-semibold"
-            isDisabled={select === "Sensoric System"}
+            isDisabled={select === "1"}
           />
           <Input
             variant="faded"
@@ -303,7 +292,7 @@ export default function Home() {
             value={temperature}
             onChange={(e) => setTemperature(e.target.value)}
             className="font-semibold"
-            isDisabled={select === "Sensoric System"}
+            isDisabled={select === "1"}
           />
           <Input
             variant="faded"
@@ -315,7 +304,7 @@ export default function Home() {
             value={humidity}
             onChange={(e) => setHumidity(e.target.value)}
             className="font-semibold"
-            isDisabled={select === "Sensoric System"}
+            isDisabled={select === "1"}
           />
           <Input
             variant="faded"
@@ -327,7 +316,7 @@ export default function Home() {
             value={rainfall}
             onChange={(e) => setRainfall(e.target.value)}
             className="font-semibold"
-            isDisabled={select === "Sensoric System"}
+            isDisabled={select === "1"}
           />
         </div>
         {error && <p className="font-semibold text-red-500">{error}</p>}
