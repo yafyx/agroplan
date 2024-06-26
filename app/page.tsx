@@ -82,7 +82,7 @@ export default function Home() {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:5328/api/predict",
+        "https://agroplan-api.vercel.app/api/predict",
         {
           method: "POST",
           headers: {
