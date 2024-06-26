@@ -439,7 +439,7 @@ export default function Home() {
                     <td>{ parseFloat(dataAdditionalFertilizer.SP_36) < 0 ? "SP-36: " + parseFloat(dataAdditionalFertilizer.SP_36) * -1 + " kg/Ha" : ""}</td>
                   </tr>
                   <tr className="transition-colors hover:bg-muted/50">
-                    <td>{ parseFloat(dataAdditionalFertilizer.KCL) < 0 ? "KCL: " + parseFloat(dataAdditionalFertilizer.KCL) * -1 + " kg/Ha" : ""}</td>
+                    <td>{ parseFloat(dataAdditionalFertilizer.KCL) < 0 ? "MOP: " + parseFloat(dataAdditionalFertilizer.KCL) * -1 + " kg/Ha" : ""}</td>
                   </tr>
                 </tbody>
               </table>
