@@ -4,7 +4,6 @@ import { Input } from "@nextui-org/input";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
 import React, { useState } from "react";
 
-
 export default function Home() {
   const [n, setN] = useState("");
   const [p, setP] = useState("");
@@ -29,7 +28,7 @@ export default function Home() {
   const [hasPrediction, setHasPrediction] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [select, setSelect] = useState("")
+  const [select, setSelect] = useState("");
 
   const handleSubmit = async () => {
     if (!n) {
@@ -127,22 +126,23 @@ export default function Home() {
     { label: "Pigeon Peas", value: 23 },
   ];
 
-  
   const inputOptions = [
-    {label: "Sensoric System", value: 1},
-    {label: "Manual Input", value: 2 },
-  ]
+    { label: "Sensoric System", value: 1 },
+    { label: "Manual Input", value: 2 },
+  ];
 
   const getDataThingspeak = async () => {
     try {
-      const response = await fetch("https://api.thingspeak.com/channels/2321454/feeds.json?results=1");
-  
+      const response = await fetch(
+        "https://api.thingspeak.com/channels/2321454/feeds.json?results=1",
+      );
+
       if (!response.ok) {
-        throw new Error('Failed to fetch sensor data');
+        throw new Error("Failed to fetch sensor data");
       }
-  
+
       const result = await response.json();
-  
+
       if (result.feeds.length > 0) {
         const data = {
           pH: parseFloat(result.feeds[0].field1),
@@ -154,7 +154,7 @@ export default function Home() {
           potassium: parseInt(result.feeds[0].field7),
           eh: parseFloat(result.feeds[0].field8),
         };
-  
+
         setN(data.nitrogen.toString());
         setP(data.phosphorus.toString());
         setK(data.potassium.toString());
@@ -162,64 +162,62 @@ export default function Home() {
         setTemperature(data.temperature.toString());
         setHumidity(data.soilMoisture.toString());
         setRainfall(data.eh.toString());
-        
       } else {
-        throw new Error('No sensor data available');
+        throw new Error("No sensor data available");
       }
     } catch (error) {
-      console.error('Error fetching sensor data:', error);
+      console.error("Error fetching sensor data:", error);
     }
   };
 
   const dataPredictedNutrient = {
     N: parseFloat(n) - prediction.predictions.N,
     P: parseFloat(p) - prediction.predictions.P,
-    K: parseFloat(k) - prediction.predictions.K
-  }
-  
-  const dataAdditionalFertilizer = {
-    Urea: (100 / 46 *  dataPredictedNutrient.N * 2.4).toFixed(2),
-    SP_36: (100 / 36 * dataPredictedNutrient.P * 2.4).toFixed(2),
-    KCL: (100 / 60 * dataPredictedNutrient.K * 2.4).toFixed(2),
+    K: parseFloat(k) - prediction.predictions.K,
   };
 
+  const dataAdditionalFertilizer = {
+    Urea: ((100 / 46) * dataPredictedNutrient.N * 2.4).toFixed(2),
+    SP_36: ((100 / 36) * dataPredictedNutrient.P * 2.4).toFixed(2),
+    KCL: ((100 / 60) * dataPredictedNutrient.K * 2.4).toFixed(2),
+  };
 
   return (
-    <section className="flex flex-wrap items-center justify-center gap-4 p-8 rounded-2xl bg-white/50 backdrop-blur-lg dark:bg-zinc-900 sm:flex-nowrap sm:gap-8 sm:px-8 md:flex-nowrap md:gap-16">
-      <div className="flex flex-col flex-wrap w-full gap-4">
+    <section className="flex flex-wrap items-center justify-center gap-4 rounded-2xl bg-white/50 p-8 backdrop-blur-lg dark:bg-zinc-900 sm:flex-nowrap sm:gap-8 sm:px-8 md:flex-nowrap md:gap-16">
+      <div className="flex w-full flex-col flex-wrap gap-4">
         <h1 className="text-xl font-bold sm:text-2xl md:text-4xl">
           Soil Nutrient Prediction
         </h1>
         <p className="text-gray-500 dark:text-gray-400">
           Enter the soil parameters:
         </p>
-      <Autocomplete
-        variant="faded"
-        labelPlacement="outside"
-        label="Select Data Source"
-        placeholder="Sensoric System | Manual Input"
-        className="w-full font-semibold"
-        onSelectionChange={(selected) => {
-          if (selected) {
-            const selectedItem = inputOptions.find(
-              (option) => option.value.toString() === selected,
-            );
-            setSelect(selectedItem ? selectedItem.value.toString() : "");
-            if (selectedItem?.value === 1) {
-              getDataThingspeak();
+        <Autocomplete
+          variant="faded"
+          labelPlacement="outside"
+          label="Select Data Source"
+          placeholder="Sensoric System | Manual Input"
+          className="w-full font-semibold"
+          onSelectionChange={(selected) => {
+            if (selected) {
+              const selectedItem = inputOptions.find(
+                (option) => option.value.toString() === selected,
+              );
+              setSelect(selectedItem ? selectedItem.value.toString() : "");
+              if (selectedItem?.value === 1) {
+                getDataThingspeak();
+              }
             }
-          }
-        }}
-      >
-        {inputOptions.map((option) => (
-          <AutocompleteItem
-            key={option.value}
-            value={option.value.toString()}
-          >
-            {option.label}
-          </AutocompleteItem>
-        ))}
-      </Autocomplete>
+          }}
+        >
+          {inputOptions.map((option) => (
+            <AutocompleteItem
+              key={option.value}
+              value={option.value.toString()}
+            >
+              {option.label}
+            </AutocompleteItem>
+          ))}
+        </Autocomplete>
 
         <Autocomplete
           variant="faded"
@@ -333,7 +331,7 @@ export default function Home() {
         {error && <p className="font-semibold text-red-500">{error}</p>}
         <Button
           isLoading={loading}
-          className="w-full text-white bg-black dark:bg-white dark:text-black"
+          className="w-full bg-black text-white dark:bg-white dark:text-black"
           onPress={handleSubmit}
         >
           Predict
@@ -351,7 +349,7 @@ export default function Home() {
             Based on the soil parameters and crop selection, the predicted
             nutrient levels are:
           </p>
-          <div className="p-2 text-xl font-medium bg-gray-200 rounded-lg dark:bg-zinc-900/50 sm:p-4">
+          <div className="rounded-lg bg-gray-200 p-2 text-xl font-medium dark:bg-zinc-900/50 sm:p-4">
             <div>
               N:
               <span className="text-4xl font-semibold">
@@ -383,10 +381,10 @@ export default function Home() {
               }
               ), the following recommendations are provided:
             </p>
-            <div className="p-2 bg-gray-200 rounded-lg dark:bg-zinc-900/50 sm:p-4">
+            <div className="rounded-lg bg-gray-200 p-2 dark:bg-zinc-900/50 sm:p-4">
               <table className="w-full">
                 <tbody>
-                  <tr className="hover:bg-muted/50 data-[state=selected]:bg-muted border-b border-b-black/20 transition-colors dark:border-b-white/20">
+                  <tr className="border-b border-b-black/20 transition-colors dark:border-b-white/20">
                     <td>Nitrogen (N):</td>
                     <td
                       className={`p-2 text-right text-xs sm:text-sm text-${
@@ -398,7 +396,7 @@ export default function Home() {
                       {prediction.comparisons.N}
                     </td>
                   </tr>
-                  <tr className="hover:bg-muted/50 data-[state=selected]:bg-muted border-b  border-b-black/20 dark:border-b-white/20">
+                  <tr className="border-b  border-b-black/20 dark:border-b-white/20">
                     <td>Phosphorus (P):</td>
                     <td
                       className={`p-2 text-right text-xs sm:text-sm text-${
@@ -410,7 +408,7 @@ export default function Home() {
                       {prediction.comparisons.P}
                     </td>
                   </tr>
-                  <tr className="transition-colors hover:bg-muted/50">
+                  <tr className="hover:bg-muted/50 transition-colors">
                     <td>Potassium (K):</td>
                     <td
                       className={`p-2 text-right text-xs sm:text-sm text-${
@@ -425,21 +423,40 @@ export default function Home() {
                 </tbody>
               </table>
             </div>
-
+          </div>
+          <div className="space-y-2">
             <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
               Additional Fertilizer Recomendation :
             </p>
-            <div className="p-2 bg-gray-200 rounded-lg dark:bg-zinc-900/50 sm:p-4">
+            <div className="rounded-lg bg-gray-200 p-2 dark:bg-zinc-900/50 sm:p-4">
               <table className="w-full">
                 <tbody>
-                  <tr className="hover:bg-muted/50 data-[state=selected]:bg-muted border-b border-b-black/20 transition-colors dark:border-b-white/20">
-                    <td>{parseFloat(dataAdditionalFertilizer.Urea) < 0 ? "Urea: " + parseFloat(dataAdditionalFertilizer.Urea) * -1 + " kg/Ha" : ""}</td>
+                  <tr className="border-b border-b-black/20 transition-colors dark:border-b-white/20">
+                    <td>
+                      {parseFloat(dataAdditionalFertilizer.Urea) < 0
+                        ? "Urea: " +
+                          parseFloat(dataAdditionalFertilizer.Urea) * -1 +
+                          " kg/Ha"
+                        : ""}
+                    </td>
                   </tr>
-                  <tr className="hover:bg-muted/50 data-[state=selected]:bg-muted border-b  border-b-black/20 dark:border-b-white/20">
-                    <td>{ parseFloat(dataAdditionalFertilizer.SP_36) < 0 ? "SP-36: " + parseFloat(dataAdditionalFertilizer.SP_36) * -1 + " kg/Ha" : ""}</td>
+                  <tr className="border-b  border-b-black/20 dark:border-b-white/20">
+                    <td>
+                      {parseFloat(dataAdditionalFertilizer.SP_36) < 0
+                        ? "SP-36: " +
+                          parseFloat(dataAdditionalFertilizer.SP_36) * -1 +
+                          " kg/Ha"
+                        : ""}
+                    </td>
                   </tr>
-                  <tr className="transition-colors hover:bg-muted/50">
-                    <td>{ parseFloat(dataAdditionalFertilizer.KCL) < 0 ? "MOP: " + parseFloat(dataAdditionalFertilizer.KCL) * -1 + " kg/Ha" : ""}</td>
+                  <tr className="border-b  border-b-black/20 dark:border-b-white/20">
+                    <td>
+                      {parseFloat(dataAdditionalFertilizer.KCL) < 0
+                        ? "MOP: " +
+                          parseFloat(dataAdditionalFertilizer.KCL) * -1 +
+                          " kg/Ha"
+                        : ""}
+                    </td>
                   </tr>
                 </tbody>
               </table>
