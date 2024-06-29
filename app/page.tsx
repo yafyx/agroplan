@@ -440,7 +440,9 @@ export default function Home() {
                         : ""}
                     </td>
                   </tr>
-                  <tr className="border-b  border-b-black/20 dark:border-b-white/20">
+                  <tr
+                    className={`${parseFloat(dataAdditionalFertilizer.KCL) < 0 ? "border-b border-b-black/20 dark:border-b-white/20" : ""}`}
+                  >
                     <td>SP-36:</td>
                     <td className="text p-2 text-right text-xs sm:text-sm">
                       {parseFloat(dataAdditionalFertilizer.SP_36) < 0
@@ -449,15 +451,17 @@ export default function Home() {
                         : ""}
                     </td>
                   </tr>
-                  <tr className="border-b  border-b-black/20 dark:border-b-white/20">
-                    <td>
-                      {parseFloat(dataAdditionalFertilizer.KCL) < 0
-                        ? "MOP: " +
-                          parseFloat(dataAdditionalFertilizer.KCL) * -1 +
-                          " kg/Ha"
-                        : ""}
-                    </td>
-                  </tr>
+                  {parseFloat(dataAdditionalFertilizer.KCL) < 0 && (
+                    <tr className="border-b border-b-black/20 dark:border-b-white/20">
+                      <td>MOP:</td>
+                      <td className="text p-2 text-right text-xs sm:text-sm">
+                        {parseFloat(dataAdditionalFertilizer.KCL)
+                          ? parseFloat(dataAdditionalFertilizer.KCL) * -1 +
+                            " kg/Ha"
+                          : ""}
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
