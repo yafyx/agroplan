@@ -432,19 +432,19 @@ export default function Home() {
               <table className="w-full">
                 <tbody>
                   <tr className="border-b border-b-black/20 transition-colors dark:border-b-white/20">
-                    <td>
+                    <td>Urea:</td>
+                    <td className="text p-2 text-right text-xs sm:text-sm">
                       {parseFloat(dataAdditionalFertilizer.Urea) < 0
-                        ? "Urea: " +
-                          parseFloat(dataAdditionalFertilizer.Urea) * -1 +
+                        ? parseFloat(dataAdditionalFertilizer.Urea) * -1 +
                           " kg/Ha"
                         : ""}
                     </td>
                   </tr>
                   <tr className="border-b  border-b-black/20 dark:border-b-white/20">
-                    <td>
+                    <td>SP-36:</td>
+                    <td className="text p-2 text-right text-xs sm:text-sm">
                       {parseFloat(dataAdditionalFertilizer.SP_36) < 0
-                        ? "SP-36: " +
-                          parseFloat(dataAdditionalFertilizer.SP_36) * -1 +
+                        ? parseFloat(dataAdditionalFertilizer.SP_36) * -1 +
                           " kg/Ha"
                         : ""}
                     </td>
