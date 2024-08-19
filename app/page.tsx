@@ -9,6 +9,9 @@ export default function Home() {
   const [p, setP] = useState("");
   const [k, setK] = useState("");
   const [ph, setPh] = useState("");
+  const [N_leafSap, setN_leafSap] = useState("");
+  const [P_leafSap, setP_leafSap] = useState("");
+  const [K_leafSap, setK_leafSap] = useState("");
   const [temperature, setTemperature] = useState("");
   const [humidity, setHumidity] = useState("");
   const [rainfall, setRainfall] = useState("");
@@ -183,8 +186,8 @@ export default function Home() {
   };
 
   return (
-    <section className="flex flex-wrap items-center justify-center gap-4 rounded-2xl bg-white/50 p-8 backdrop-blur-lg dark:bg-zinc-900 sm:flex-nowrap sm:gap-8 sm:px-8 md:flex-nowrap md:gap-16">
-      <div className="flex w-full flex-col flex-wrap gap-4">
+    <section className="flex flex-wrap items-center justify-center gap-4 p-8 rounded-2xl bg-white/50 backdrop-blur-lg dark:bg-zinc-900 sm:flex-nowrap sm:gap-8 sm:px-8 md:flex-nowrap md:gap-16">
+      <div className="flex flex-col flex-wrap w-full gap-4">
         <h1 className="text-xl font-bold sm:text-2xl md:text-4xl">
           Soil Nutrient Prediction
         </h1>
@@ -243,6 +246,7 @@ export default function Home() {
             </AutocompleteItem>
           ))}
         </Autocomplete>
+        <p className="text-gray-500 dark:text-gray-400">Environment</p>
         <Input
           variant="faded"
           type="number"
@@ -328,10 +332,42 @@ export default function Home() {
             isDisabled={select === "1"}
           />
         </div>
+
+        <p className="text-gray-500 dark:text-gray-400">Leaf Sap</p>
+        <Input
+          variant="faded"
+          type="number"
+          step="0.01"
+          label="N :"
+          labelPlacement="outside"
+          placeholder="Enter"
+          value={N_leafSap}
+          onChange={(e) => setN_leafSap(e.target.value)}
+        />
+        <Input
+          variant="faded"
+          type="number"
+          step="0.01"
+          label="P :"
+          labelPlacement="outside"
+          placeholder="Enter"
+          value={P_leafSap}
+          onChange={(e) => setP_leafSap(e.target.value)}
+        />
+        <Input
+          variant="faded"
+          type="number"
+          step="0.01"
+          label="K :"
+          labelPlacement="outside"
+          placeholder="Enter"
+          value={K_leafSap}
+          onChange={(e) => setK_leafSap(e.target.value)}
+        />
         {error && <p className="font-semibold text-red-500">{error}</p>}
         <Button
           isLoading={loading}
-          className="w-full bg-black text-white dark:bg-white dark:text-black"
+          className="w-full text-white bg-black dark:bg-white dark:text-black"
           onPress={handleSubmit}
         >
           Predict
@@ -349,7 +385,7 @@ export default function Home() {
             Based on the soil parameters and crop selection, the predicted
             nutrient levels are:
           </p>
-          <div className="rounded-lg bg-gray-200 p-2 text-xl font-medium dark:bg-zinc-900/50 sm:p-4">
+          <div className="p-2 text-xl font-medium bg-gray-200 rounded-lg dark:bg-zinc-900/50 sm:p-4">
             <div>
               N:
               <span className="text-4xl font-semibold">
@@ -381,10 +417,10 @@ export default function Home() {
               }
               ), the following recommendations are provided:
             </p>
-            <div className="rounded-lg bg-gray-200 p-2 dark:bg-zinc-900/50 sm:p-4">
+            <div className="p-2 bg-gray-200 rounded-lg dark:bg-zinc-900/50 sm:p-4">
               <table className="w-full">
                 <tbody>
-                  <tr className="border-b border-b-black/20 transition-colors dark:border-b-white/20">
+                  <tr className="transition-colors border-b border-b-black/20 dark:border-b-white/20">
                     <td>Nitrogen (N):</td>
                     <td
                       className={`p-2 text-right text-xs sm:text-sm text-${
@@ -396,7 +432,7 @@ export default function Home() {
                       {prediction.comparisons.N}
                     </td>
                   </tr>
-                  <tr className="border-b  border-b-black/20 dark:border-b-white/20">
+                  <tr className="border-b border-b-black/20 dark:border-b-white/20">
                     <td>Phosphorus (P):</td>
                     <td
                       className={`p-2 text-right text-xs sm:text-sm text-${
@@ -408,7 +444,7 @@ export default function Home() {
                       {prediction.comparisons.P}
                     </td>
                   </tr>
-                  <tr className="hover:bg-muted/50 transition-colors">
+                  <tr className="transition-colors hover:bg-muted/50">
                     <td>Potassium (K):</td>
                     <td
                       className={`p-2 text-right text-xs sm:text-sm text-${
@@ -428,12 +464,12 @@ export default function Home() {
             <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
               Additional Fertilizer Recomendation :
             </p>
-            <div className="rounded-lg bg-gray-200 p-2 dark:bg-zinc-900/50 sm:p-4">
+            <div className="p-2 bg-gray-200 rounded-lg dark:bg-zinc-900/50 sm:p-4">
               <table className="w-full">
                 <tbody>
-                  <tr className="border-b border-b-black/20 transition-colors dark:border-b-white/20">
+                  <tr className="transition-colors border-b border-b-black/20 dark:border-b-white/20">
                     <td>Urea:</td>
-                    <td className="text p-2 text-right text-xs sm:text-sm">
+                    <td className="p-2 text-xs text-right text sm:text-sm">
                       {parseFloat(dataAdditionalFertilizer.Urea) < 0
                         ? parseFloat(dataAdditionalFertilizer.Urea) * -1 +
                           " kg/Ha"
@@ -444,7 +480,7 @@ export default function Home() {
                     className={`${parseFloat(dataAdditionalFertilizer.KCL) < 0 ? "border-b border-b-black/20 dark:border-b-white/20" : ""}`}
                   >
                     <td>SP-36:</td>
-                    <td className="text p-2 text-right text-xs sm:text-sm">
+                    <td className="p-2 text-xs text-right text sm:text-sm">
                       {parseFloat(dataAdditionalFertilizer.SP_36) < 0
                         ? parseFloat(dataAdditionalFertilizer.SP_36) * -1 +
                           " kg/Ha"
@@ -454,7 +490,7 @@ export default function Home() {
                   {parseFloat(dataAdditionalFertilizer.KCL) < 0 && (
                     <tr className="border-b border-b-black/20 dark:border-b-white/20">
                       <td>MOP:</td>
-                      <td className="text p-2 text-right text-xs sm:text-sm">
+                      <td className="p-2 text-xs text-right text sm:text-sm">
                         {parseFloat(dataAdditionalFertilizer.KCL)
                           ? parseFloat(dataAdditionalFertilizer.KCL) * -1 +
                             " kg/Ha"
