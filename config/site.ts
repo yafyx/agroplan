@@ -1,8 +1,8 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-	name: "AgroPlan",
-	description: "AgroPlan is a sophisticated application designed to empower users by predicting the most suitable crop based on the provided soil parameters.",
+	name: "UG-AgroPlan",
+	description: "UG-AgroPlan is a sophisticated application designed to empower users by predicting the most suitable crop based on the provided soil parameters.",
 	navItems: [
 		{
 			label: "Home",

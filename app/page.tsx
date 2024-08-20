@@ -27,6 +27,11 @@ export default function Home() {
       P: "Sufficient",
       K: "Sufficient",
     },
+    comparisons_value: {
+      N: 0,
+      P: 0,
+      K: 0,
+    },
   });
   const [hasPrediction, setHasPrediction] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -80,6 +85,9 @@ export default function Home() {
       Humidity: parseFloat(humidity),
       Rainfall: parseFloat(rainfall),
       Crop: parseInt(crop),
+      N_leafSap: parseFloat(N_leafSap),
+      P_leafSap: parseFloat(P_leafSap),
+      K_leafSap: parseFloat(K_leafSap),
     };
 
     try {
@@ -95,11 +103,13 @@ export default function Home() {
       );
 
       const result = await response.json();
+
       setPrediction(result);
       setHasPrediction(true);
     } catch (error) {
       setError("Failed to fetch prediction. Please try again.");
     } finally {
+      console.log(prediction.comparisons);
       setLoading(false);
     }
   };
@@ -173,21 +183,15 @@ export default function Home() {
     }
   };
 
-  const dataPredictedNutrient = {
-    N: parseFloat(n) - prediction.predictions.N,
-    P: parseFloat(p) - prediction.predictions.P,
-    K: parseFloat(k) - prediction.predictions.K,
-  };
-
   const dataAdditionalFertilizer = {
-    Urea: ((100 / 46) * dataPredictedNutrient.N * 2.4).toFixed(2),
-    SP_36: ((100 / 36) * dataPredictedNutrient.P * 2.4).toFixed(2),
-    KCL: ((100 / 60) * dataPredictedNutrient.K * 2.4).toFixed(2),
+    Urea: ((100 / 46) * prediction.comparisons_value.N * 2.4).toFixed(2),
+    SP_36: ((100 / 36) * prediction.comparisons_value.P * 2.4).toFixed(2),
+    MOP: ((100 / 60) * prediction.comparisons_value.K * 2.4).toFixed(2),
   };
 
   return (
-    <section className="flex flex-wrap items-center justify-center gap-4 p-8 rounded-2xl bg-white/50 backdrop-blur-lg dark:bg-zinc-900 sm:flex-nowrap sm:gap-8 sm:px-8 md:flex-nowrap md:gap-16">
-      <div className="flex flex-col flex-wrap w-full gap-4">
+    <section className="flex flex-wrap items-center justify-center gap-4 rounded-2xl bg-white/50 p-8 backdrop-blur-lg dark:bg-zinc-900 sm:flex-nowrap sm:gap-8 sm:px-8 md:flex-nowrap md:gap-16">
+      <div className="flex w-full flex-col flex-wrap gap-4">
         <h1 className="text-xl font-bold sm:text-2xl md:text-4xl">
           Soil Nutrient Prediction
         </h1>
@@ -367,7 +371,7 @@ export default function Home() {
         {error && <p className="font-semibold text-red-500">{error}</p>}
         <Button
           isLoading={loading}
-          className="w-full text-white bg-black dark:bg-white dark:text-black"
+          className="w-full bg-black text-white dark:bg-white dark:text-black"
           onPress={handleSubmit}
         >
           Predict
@@ -385,7 +389,7 @@ export default function Home() {
             Based on the soil parameters and crop selection, the predicted
             nutrient levels are:
           </p>
-          <div className="p-2 text-xl font-medium bg-gray-200 rounded-lg dark:bg-zinc-900/50 sm:p-4">
+          <div className="rounded-lg bg-gray-200 p-2 text-xl font-medium dark:bg-zinc-900/50 sm:p-4">
             <div>
               N:
               <span className="text-4xl font-semibold">
@@ -417,10 +421,10 @@ export default function Home() {
               }
               ), the following recommendations are provided:
             </p>
-            <div className="p-2 bg-gray-200 rounded-lg dark:bg-zinc-900/50 sm:p-4">
+            <div className="rounded-lg bg-gray-200 p-2 dark:bg-zinc-900/50 sm:p-4">
               <table className="w-full">
                 <tbody>
-                  <tr className="transition-colors border-b border-b-black/20 dark:border-b-white/20">
+                  <tr className="border-b border-b-black/20 transition-colors dark:border-b-white/20">
                     <td>Nitrogen (N):</td>
                     <td
                       className={`p-2 text-right text-xs sm:text-sm text-${
@@ -444,7 +448,7 @@ export default function Home() {
                       {prediction.comparisons.P}
                     </td>
                   </tr>
-                  <tr className="transition-colors hover:bg-muted/50">
+                  <tr className="hover:bg-muted/50 transition-colors">
                     <td>Potassium (K):</td>
                     <td
                       className={`p-2 text-right text-xs sm:text-sm text-${
@@ -464,35 +468,37 @@ export default function Home() {
             <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
               Additional Fertilizer Recomendation :
             </p>
-            <div className="p-2 bg-gray-200 rounded-lg dark:bg-zinc-900/50 sm:p-4">
+            <div className="rounded-lg bg-gray-200 p-2 dark:bg-zinc-900/50 sm:p-4">
               <table className="w-full">
                 <tbody>
-                  <tr className="transition-colors border-b border-b-black/20 dark:border-b-white/20">
-                    <td>Urea:</td>
-                    <td className="p-2 text-xs text-right text sm:text-sm">
-                      {parseFloat(dataAdditionalFertilizer.Urea) < 0
-                        ? parseFloat(dataAdditionalFertilizer.Urea) * -1 +
-                          " kg/Ha"
-                        : ""}
-                    </td>
-                  </tr>
-                  <tr
-                    className={`${parseFloat(dataAdditionalFertilizer.KCL) < 0 ? "border-b border-b-black/20 dark:border-b-white/20" : ""}`}
-                  >
-                    <td>SP-36:</td>
-                    <td className="p-2 text-xs text-right text sm:text-sm">
-                      {parseFloat(dataAdditionalFertilizer.SP_36) < 0
-                        ? parseFloat(dataAdditionalFertilizer.SP_36) * -1 +
-                          " kg/Ha"
-                        : ""}
-                    </td>
-                  </tr>
-                  {parseFloat(dataAdditionalFertilizer.KCL) < 0 && (
+                  {parseFloat(dataAdditionalFertilizer.Urea) < 0 && (
+                    <tr className="border-b border-b-black/20 dark:border-b-white/20">
+                      <td>UREA :</td>
+                      <td className="text p-2 text-right text-xs sm:text-sm">
+                        {parseFloat(dataAdditionalFertilizer.Urea)
+                          ? parseFloat(dataAdditionalFertilizer.Urea) * -1 +
+                            " kg/Ha"
+                          : ""}
+                      </td>
+                    </tr>
+                  )}
+                  {parseFloat(dataAdditionalFertilizer.SP_36) < 0 && (
+                    <tr className="border-b border-b-black/20 dark:border-b-white/20">
+                      <td>SP_36</td>
+                      <td className="text p-2 text-right text-xs sm:text-sm">
+                        {parseFloat(dataAdditionalFertilizer.SP_36)
+                          ? parseFloat(dataAdditionalFertilizer.SP_36) * -1 +
+                            " kg/Ha"
+                          : ""}
+                      </td>
+                    </tr>
+                  )}
+                  {parseFloat(dataAdditionalFertilizer.MOP) < 0 && (
                     <tr className="border-b border-b-black/20 dark:border-b-white/20">
                       <td>MOP:</td>
-                      <td className="p-2 text-xs text-right text sm:text-sm">
-                        {parseFloat(dataAdditionalFertilizer.KCL)
-                          ? parseFloat(dataAdditionalFertilizer.KCL) * -1 +
+                      <td className="text p-2 text-right text-xs sm:text-sm">
+                        {parseFloat(dataAdditionalFertilizer.MOP)
+                          ? parseFloat(dataAdditionalFertilizer.MOP) * -1 +
                             " kg/Ha"
                           : ""}
                       </td>
