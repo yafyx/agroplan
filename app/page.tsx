@@ -167,7 +167,7 @@ export default function Home() {
         <h1 className="text-xl font-bold sm:text-2xl md:text-4xl">
           Soil Nutrient Prediction
         </h1>
-        <div className="relative space-y-2 border-e border-gray-500 pr-4 md:border-e-0">
+        <div className="relative space-y-2 border-e border-neutral-700 pr-4 md:border-e-0">
           <div className="absolute -right-4 -top-3 flex h-8 w-8 items-center justify-center rounded-full bg-black font-bold text-white sm:hidden">
             1
           </div>
@@ -228,11 +228,11 @@ export default function Home() {
           </Autocomplete>
         </div>
 
-        <div className="relative grid gap-4 border-gray-500 sm:grid-cols-2">
+        <div className="relative grid gap-4 sm:grid-cols-2">
           <div className="absolute -right-4 -top-0 flex h-8 w-8 items-center justify-center rounded-full bg-black font-bold text-white sm:hidden">
             2
           </div>
-          <div className="space-y-4 border-r border-gray-500 pr-4">
+          <div className="space-y-4 border-r border-neutral-700 pr-4">
             <div className="space-y-8">
               <p className="text-gray-500 dark:text-gray-400">Environment</p>
               <Input
@@ -322,7 +322,7 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className="relative space-y-8 border-e border-gray-500 pr-4 md:border-e-0">
+          <div className="relative space-y-8 border-e border-neutral-700 pr-4 md:border-e-0">
             <p className="text-gray-500 dark:text-gray-400">Leaf Sap</p>
             <div className="absolute -right-4 -top-8 flex h-8 w-8 items-center justify-center rounded-full bg-black font-bold text-white sm:hidden">
               3
