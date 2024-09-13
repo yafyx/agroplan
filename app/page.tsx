@@ -4,6 +4,7 @@ import { Input } from "@nextui-org/input";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
 import React, { useState } from "react";
 import { cropOptions, inputOptions } from "@/app/lib/data";
+import { Prediction } from "@/app/lib/types";
 
 export default function Home() {
   const [n, setN] = useState("");
@@ -17,7 +18,7 @@ export default function Home() {
   const [humidity, setHumidity] = useState("");
   const [rainfall, setRainfall] = useState("");
   const [crop, setCrop] = useState("");
-  const [prediction, setPrediction] = useState({
+  const [prediction, setPrediction] = useState<Prediction>({
     predictions: {
       N: 0,
       P: 0,
