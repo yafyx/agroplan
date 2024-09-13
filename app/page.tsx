@@ -162,184 +162,195 @@ export default function Home() {
   };
 
   return (
-    <section className="flex flex-wrap items-center justify-center gap-4 rounded-2xl bg-white/50 p-8 backdrop-blur-lg dark:bg-zinc-900 sm:flex-nowrap sm:gap-8 sm:px-8 md:flex-nowrap md:gap-16">
-      <div className="flex w-full flex-col flex-wrap gap-4">
-        <h1 className="text-xl font-bold sm:text-2xl md:text-4xl">
-          Soil Nutrient Prediction
-        </h1>
-        <p className="text-gray-500 dark:text-gray-400">
-          Enter the soil parameters:
-        </p>
-        <Autocomplete
-          variant="faded"
-          labelPlacement="outside"
-          label="Select Data Source"
-          placeholder="Sensoric System | Manual Input"
-          className="w-full font-semibold"
-          onSelectionChange={(selected) => {
-            if (selected) {
-              const selectedItem = inputOptions.find(
-                (option) => option.value.toString() === selected,
-              );
-              setSelect(selectedItem ? selectedItem.value.toString() : "");
-              if (selectedItem?.value === 1) {
-                getDataThingspeak();
+    <section className="flex flex-wrap items-start justify-center gap-4 rounded-2xl bg-white/50 p-4 backdrop-blur-lg dark:bg-zinc-900 sm:p-8 md:gap-8 lg:flex-nowrap lg:gap-16">
+      <div className="flex w-full max-w-xl flex-col flex-wrap gap-4">
+        <div className="space-y-2 border-e border-gray-500 pr-4 md:border-e-0">
+          <h1 className="text-xl font-bold sm:text-2xl md:text-4xl">
+            Soil Nutrient Prediction
+          </h1>
+          <p className="text-gray-500 dark:text-gray-400">
+            Enter the soil parameters:
+          </p>
+          <Autocomplete
+            variant="faded"
+            labelPlacement="outside"
+            label="Select Data Source"
+            placeholder="Sensoric System | Manual Input"
+            className="w-full font-semibold"
+            onSelectionChange={(selected) => {
+              if (selected) {
+                const selectedItem = inputOptions.find(
+                  (option) => option.value.toString() === selected,
+                );
+                setSelect(selectedItem ? selectedItem.value.toString() : "");
+                if (selectedItem?.value === 1) {
+                  getDataThingspeak();
+                }
               }
-            }
-          }}
-        >
-          {inputOptions.map((option) => (
-            <AutocompleteItem
-              key={option.value}
-              value={option.value.toString()}
-            >
-              {option.label}
-            </AutocompleteItem>
-          ))}
-        </Autocomplete>
+            }}
+          >
+            {inputOptions.map((option) => (
+              <AutocompleteItem
+                key={option.value}
+                value={option.value.toString()}
+              >
+                {option.label}
+              </AutocompleteItem>
+            ))}
+          </Autocomplete>
 
-        <Autocomplete
-          variant="faded"
-          labelPlacement="outside"
-          label="Crop"
-          placeholder="Search a crop"
-          className="w-full font-semibold"
-          onSelectionChange={(selected) => {
-            if (selected) {
-              const selectedItem = cropOptions.find(
-                (option) => option.value.toString() === selected,
-              );
-              setCrop(selectedItem ? selectedItem.value.toString() : "");
-            }
-          }}
-        >
-          {cropOptions.map((option) => (
-            <AutocompleteItem
-              key={option.value}
-              value={option.value.toString()}
-            >
-              {option.label}
-            </AutocompleteItem>
-          ))}
-        </Autocomplete>
-        <p className="text-gray-500 dark:text-gray-400">Environment</p>
-        <Input
-          variant="faded"
-          type="number"
-          step="0.01"
-          label="N :"
-          labelPlacement="outside"
-          placeholder="Enter"
-          value={n}
-          onChange={(e) => setN(e.target.value)}
-          className="font-semibold"
-          isDisabled={select === "1"}
-        />
-        <Input
-          variant="faded"
-          type="number"
-          step="0.01"
-          label="P :"
-          labelPlacement="outside"
-          placeholder="Enter"
-          value={p}
-          onChange={(e) => setP(e.target.value)}
-          isDisabled={select === "1"}
-        />
-        <Input
-          variant="faded"
-          type="number"
-          step="0.01"
-          label="K :"
-          labelPlacement="outside"
-          placeholder="Enter"
-          value={k}
-          onChange={(e) => setK(e.target.value)}
-          className="font-semibold"
-          isDisabled={select === "1"}
-        />
-        <div className="grid grid-cols-2 gap-4">
-          <Input
+          <Autocomplete
             variant="faded"
-            type="number"
-            step="0.01"
-            label="pH :"
             labelPlacement="outside"
-            placeholder="Enter"
-            value={ph}
-            onChange={(e) => setPh(e.target.value)}
-            className="font-semibold"
-            isDisabled={select === "1"}
-          />
-          <Input
-            variant="faded"
-            type="number"
-            step="0.01"
-            label="Temperature :"
-            labelPlacement="outside"
-            placeholder="Enter"
-            value={temperature}
-            onChange={(e) => setTemperature(e.target.value)}
-            className="font-semibold"
-            isDisabled={select === "1"}
-          />
-          <Input
-            variant="faded"
-            type="number"
-            step="0.01"
-            label="Humidity :"
-            labelPlacement="outside"
-            placeholder="Enter"
-            value={humidity}
-            onChange={(e) => setHumidity(e.target.value)}
-            className="font-semibold"
-            isDisabled={select === "1"}
-          />
-          <Input
-            variant="faded"
-            type="number"
-            step="0.01"
-            label="Rainfall :"
-            labelPlacement="outside"
-            placeholder="Enter"
-            value={rainfall}
-            onChange={(e) => setRainfall(e.target.value)}
-            className="font-semibold"
-            isDisabled={select === "1"}
-          />
+            label="Crop"
+            placeholder="Search a crop"
+            className="w-full font-semibold"
+            onSelectionChange={(selected) => {
+              if (selected) {
+                const selectedItem = cropOptions.find(
+                  (option) => option.value.toString() === selected,
+                );
+                setCrop(selectedItem ? selectedItem.value.toString() : "");
+              }
+            }}
+          >
+            {cropOptions.map((option) => (
+              <AutocompleteItem
+                key={option.value}
+                value={option.value.toString()}
+              >
+                {option.label}
+              </AutocompleteItem>
+            ))}
+          </Autocomplete>
         </div>
 
-        <p className="text-gray-500 dark:text-gray-400">Leaf Sap</p>
-        <Input
-          variant="faded"
-          type="number"
-          step="0.01"
-          label="N :"
-          labelPlacement="outside"
-          placeholder="Enter"
-          value={N_leafSap}
-          onChange={(e) => setN_leafSap(e.target.value)}
-        />
-        <Input
-          variant="faded"
-          type="number"
-          step="0.01"
-          label="P :"
-          labelPlacement="outside"
-          placeholder="Enter"
-          value={P_leafSap}
-          onChange={(e) => setP_leafSap(e.target.value)}
-        />
-        <Input
-          variant="faded"
-          type="number"
-          step="0.01"
-          label="K :"
-          labelPlacement="outside"
-          placeholder="Enter"
-          value={K_leafSap}
-          onChange={(e) => setK_leafSap(e.target.value)}
-        />
+        <div className="grid gap-4 border-gray-500 sm:grid-cols-2">
+          <div className="space-y-4 border-r border-gray-500 pr-4">
+            <div className="space-y-8">
+              <p className="text-gray-500 dark:text-gray-400">Environment</p>
+              <Input
+                variant="faded"
+                type="number"
+                step="0.01"
+                label="N:"
+                labelPlacement="outside"
+                placeholder="Enter"
+                value={n}
+                onChange={(e) => setN(e.target.value)}
+                className="font-semibold"
+                isDisabled={select === "1"}
+              />
+              <Input
+                variant="faded"
+                type="number"
+                step="0.01"
+                label="P:"
+                labelPlacement="outside"
+                placeholder="Enter"
+                value={p}
+                onChange={(e) => setP(e.target.value)}
+                isDisabled={select === "1"}
+              />
+              <Input
+                variant="faded"
+                type="number"
+                step="0.01"
+                label="K:"
+                labelPlacement="outside"
+                placeholder="Enter"
+                value={k}
+                onChange={(e) => setK(e.target.value)}
+                className="font-semibold"
+                isDisabled={select === "1"}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <Input
+                variant="faded"
+                type="number"
+                step="0.01"
+                label="pH:"
+                labelPlacement="outside"
+                placeholder="Enter"
+                value={ph}
+                onChange={(e) => setPh(e.target.value)}
+                className="font-semibold"
+                isDisabled={select === "1"}
+              />
+              <Input
+                variant="faded"
+                type="number"
+                step="0.01"
+                label="Temperature:"
+                labelPlacement="outside"
+                placeholder="Enter"
+                value={temperature}
+                onChange={(e) => setTemperature(e.target.value)}
+                className="font-semibold"
+                isDisabled={select === "1"}
+              />
+              <Input
+                variant="faded"
+                type="number"
+                step="0.01"
+                label="Humidity:"
+                labelPlacement="outside"
+                placeholder="Enter"
+                value={humidity}
+                onChange={(e) => setHumidity(e.target.value)}
+                className="font-semibold"
+                isDisabled={select === "1"}
+              />
+              <Input
+                variant="faded"
+                type="number"
+                step="0.01"
+                label="Rainfall:"
+                labelPlacement="outside"
+                placeholder="Enter"
+                value={rainfall}
+                onChange={(e) => setRainfall(e.target.value)}
+                className="font-semibold"
+                isDisabled={select === "1"}
+              />
+            </div>
+          </div>
+          <div className="space-y-8 border-e border-gray-500 pr-4 md:border-e-0">
+            <p className="text-gray-500 dark:text-gray-400">Leaf Sap</p>
+            <Input
+              variant="faded"
+              type="number"
+              step="0.01"
+              label="N:"
+              labelPlacement="outside"
+              placeholder="Enter"
+              value={N_leafSap}
+              onChange={(e) => setN_leafSap(e.target.value)}
+            />
+            <Input
+              variant="faded"
+              type="number"
+              step="0.01"
+              label="P:"
+              labelPlacement="outside"
+              placeholder="Enter"
+              value={P_leafSap}
+              onChange={(e) => setP_leafSap(e.target.value)}
+            />
+            <Input
+              variant="faded"
+              type="number"
+              step="0.01"
+              label="K:"
+              labelPlacement="outside"
+              placeholder="Enter"
+              value={K_leafSap}
+              onChange={(e) => setK_leafSap(e.target.value)}
+            />
+          </div>
+        </div>
+
         {error && <p className="font-semibold text-red-500">{error}</p>}
         <Button
           isLoading={loading}
