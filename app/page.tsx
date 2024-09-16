@@ -101,13 +101,16 @@ export default function Home() {
     };
 
     try {
-      const response = await fetch("https://agroplan-api.up.railway.app/api/predict", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "https://agroplan-api.up.railway.app/api/predict",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
         },
-        body: JSON.stringify(data),
-      });
+      );
 
       const result = await response.json();
 
@@ -151,7 +154,6 @@ export default function Home() {
         setPh(data.pH.toString());
         setTemperature(data.temperature.toString());
         setHumidity(data.soilMoisture.toString());
-        setRainfall(data.eh.toString());
       } else {
         throw new Error("No sensor data available");
       }
@@ -320,7 +322,6 @@ export default function Home() {
                 value={rainfall}
                 onChange={(e) => setRainfall(e.target.value)}
                 className="font-semibold"
-                isDisabled={select === "1"}
               />
             </div>
           </div>
