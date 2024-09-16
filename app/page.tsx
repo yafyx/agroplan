@@ -19,10 +19,14 @@ export default function Home() {
   const [rainfall, setRainfall] = useState("");
   const [crop, setCrop] = useState("");
   const [prediction, setPrediction] = useState<Prediction>({
-    predictions: {
+    recommendations: {
       N: 0,
       P: 0,
       K: 0,
+      temperature: 0,
+      ph: 0,
+      humidity: 0,
+      rainfall: 0,
     },
     comparisons: {
       N: "Sufficient",
@@ -34,6 +38,10 @@ export default function Home() {
       P: 0,
       K: 0,
     },
+    crop_prediction: "",
+    knn_accuracy: 0,
+    knn_train_accuracy: 0,
+    knn_test_accuracy: 0,
   });
   const [hasPrediction, setHasPrediction] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -161,11 +169,11 @@ export default function Home() {
   return (
     <section className="flex flex-wrap items-start justify-center gap-4 rounded-2xl bg-white/50 p-4 backdrop-blur-lg dark:bg-zinc-900 sm:p-8 md:gap-8 lg:flex-nowrap lg:gap-16">
       <div className="flex w-full max-w-xl flex-col flex-wrap gap-4">
-        <h1 className="text-xl font-bold sm:text-2xl md:text-4xl">
-          Soil Nutrient Prediction
+        <h1 className="text-xl font-bold sm:text-2xl md:text-5xl">
+          Soil Nutrient Analysis & Crop Prediction
         </h1>
         <div className="relative space-y-2 border-e border-neutral-700 pr-4 md:border-e-0">
-          <div className="absolute -right-4 -top-3 flex h-8 w-8 items-center justify-center rounded-full bg-black font-bold text-white sm:hidden">
+          <div className="absolute -right-4 -top-0 flex h-8 w-8 items-center justify-center rounded-full bg-black font-bold text-white sm:hidden">
             1
           </div>
           <p className="text-gray-500 dark:text-gray-400">
@@ -368,34 +376,107 @@ export default function Home() {
         <div
           className={`flex w-full flex-col flex-wrap gap-4 rounded-2xl bg-white/60 p-4 backdrop-blur-lg dark:bg-zinc-800 sm:p-6`}
         >
-          <h1 className="text-lg font-bold sm:text-xl md:text-2xl lg:text-4xl">
-            Predicted Nutrient Levels
-          </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
-            Based on the soil parameters and crop selection, the predicted
-            nutrient levels are:
-          </p>
-          <div className="rounded-lg bg-gray-200 p-2 text-xl font-medium dark:bg-zinc-900/50 sm:p-4">
-            <div>
-              N:
-              <span className="text-4xl font-semibold">
-                {prediction.predictions.N.toFixed(2)}
-              </span>
-              <span className="text-sm"> ppm</span>
+          <div className="flex flex-row flex-wrap">
+            <div className="w-full space-y-2 p-2 lg:w-1/2">
+              <h1 className="text-lg font-bold sm:text-xl md:text-2xl lg:text-4xl">
+                Plant Recommendation
+              </h1>
+              <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
+                Based on the soil and parameters and crop collection data, the
+                plant recommendation is:
+              </p>
+              <div className="rounded-lg bg-gray-200 p-4 dark:bg-zinc-900/50">
+                <div className="mt-2">
+                  <span className="text-3xl font-bold capitalize">
+                    {prediction.crop_prediction}
+                  </span>
+                </div>
+              </div>
+              <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
+                Using the KNN classifier, the accuracy of the prediction is:
+              </p>
+              <div className="rounded-lg bg-gray-200 p-4 dark:bg-zinc-900/50">
+                <div className="mt-2">
+                  <p>
+                    KNN Accuracy:{" "}
+                    <span className="text-green-500">
+                      {prediction.knn_accuracy?.toFixed(2)} %
+                    </span>
+                  </p>
+                  <p>
+                    <span className="italic">knn_train_accuracy</span>:{" "}
+                    <span className="text-green-500">
+                      {prediction.knn_train_accuracy?.toFixed(2)} %
+                    </span>
+                  </p>
+                  <p>
+                    <span className="italic">knn_test_accuracy</span>:{" "}
+                    <span className="text-green-500">
+                      {prediction.knn_test_accuracy?.toFixed(2)} %
+                    </span>
+                  </p>
+                </div>
+              </div>
             </div>
-            <div>
-              P:
-              <span className="text-4xl font-semibold">
-                {prediction.predictions.P.toFixed(2)}
-              </span>
-              <span className="text-sm"> ppm</span>
-            </div>
-            <div>
-              K:
-              <span className="text-4xl font-semibold">
-                {prediction.predictions.K.toFixed(2)}
-              </span>
-              <span className="text-sm"> ppm</span>
+            <div className="w-full space-y-2 p-2 lg:w-1/2">
+              <h1 className="text-lg font-bold sm:text-xl md:text-2xl lg:text-4xl">
+                Predicted Nutrient Levels
+              </h1>
+              <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
+                Based on the soil parameters and crop selection, the predicted
+                nutrient levels are:
+              </p>
+              <div className="rounded-lg bg-gray-200 p-2 text-xl font-medium dark:bg-zinc-900/50 sm:p-4">
+                <div>
+                  N:{" "}
+                  <span className="text-4xl font-semibold">
+                    {prediction.recommendations?.N?.toFixed(2) || "N/A"}
+                  </span>
+                  <span className="text-sm"> ppm</span>
+                </div>
+                <div>
+                  P:{" "}
+                  <span className="text-4xl font-semibold">
+                    {prediction.recommendations?.P?.toFixed(2) || "N/A"}
+                  </span>
+                  <span className="text-sm"> ppm</span>
+                </div>
+                <div>
+                  K:{" "}
+                  <span className="text-4xl font-semibold">
+                    {prediction.recommendations?.K?.toFixed(2) || "N/A"}
+                  </span>
+                  <span className="text-sm"> ppm</span>
+                </div>
+                <div>
+                  Temperature:{" "}
+                  <span className="text-4xl font-semibold">
+                    {prediction.recommendations?.temperature?.toFixed(2) ||
+                      "N/A"}
+                  </span>
+                  <span className="text-sm"> °C</span>
+                </div>
+                <div>
+                  pH:{" "}
+                  <span className="text-4xl font-semibold">
+                    {prediction.recommendations?.ph?.toFixed(2) || "N/A"}
+                  </span>
+                </div>
+                <div>
+                  Humidity:{" "}
+                  <span className="text-4xl font-semibold">
+                    {prediction.recommendations?.humidity?.toFixed(2) || "N/A"}
+                  </span>
+                  <span className="text-sm"> %</span>
+                </div>
+                <div>
+                  Rainfall:{" "}
+                  <span className="text-4xl font-semibold">
+                    {prediction.recommendations?.rainfall?.toFixed(2) || "N/A"}
+                  </span>
+                  <span className="text-sm"> mm</span>
+                </div>
+              </div>
             </div>
           </div>
           <div className="space-y-2">
