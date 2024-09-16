@@ -82,27 +82,24 @@ export default function Home() {
       N: parseFloat(n),
       P: parseFloat(p),
       K: parseFloat(k),
-      pH: parseFloat(ph),
-      Temperature: parseFloat(temperature),
-      Humidity: parseFloat(humidity),
-      Rainfall: parseFloat(rainfall),
-      Crop: parseInt(crop),
+      ph: parseFloat(ph),
+      temperature: parseFloat(temperature),
+      humidity: parseFloat(humidity),
+      rainfall: parseFloat(rainfall),
+      selected_crop: String(crop),
       N_leafSap: parseFloat(N_leafSap),
       P_leafSap: parseFloat(P_leafSap),
       K_leafSap: parseFloat(K_leafSap),
     };
 
     try {
-      const response = await fetch(
-        "https://agroplan-api.vercel.app/api/predict",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
+      const response = await fetch("http://127.0.0.1:5000/api/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(data),
+      });
 
       const result = await response.json();
 
@@ -111,7 +108,7 @@ export default function Home() {
     } catch (error) {
       setError("Failed to fetch prediction. Please try again.");
     } finally {
-      console.log(prediction.comparisons);
+      // console.log(prediction.comparisons);
       setLoading(false);
     }
   };
@@ -211,17 +208,14 @@ export default function Home() {
             onSelectionChange={(selected) => {
               if (selected) {
                 const selectedItem = cropOptions.find(
-                  (option) => option.value.toString() === selected,
+                  (option) => option.value === selected,
                 );
-                setCrop(selectedItem ? selectedItem.value.toString() : "");
+                setCrop(selectedItem ? selectedItem.value : "");
               }
             }}
           >
             {cropOptions.map((option) => (
-              <AutocompleteItem
-                key={option.value}
-                value={option.value.toString()}
-              >
+              <AutocompleteItem key={option.value} value={option.value}>
                 {option.label}
               </AutocompleteItem>
             ))}
