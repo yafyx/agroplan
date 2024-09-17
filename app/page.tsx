@@ -115,13 +115,16 @@ export default function Home() {
     };
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/predict", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "https://agroplan-api.up.railway.app/api/predict",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
         },
-        body: JSON.stringify(data),
-      });
+      );
 
       const result = await response.json();
 
