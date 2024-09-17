@@ -183,7 +183,7 @@ export default function Home() {
   };
 
   return (
-    <section className="flex flex-wrap items-start justify-center gap-4 rounded-2xl bg-white/50 p-4 backdrop-blur-lg dark:bg-zinc-900 sm:p-8 md:gap-8 lg:flex-nowrap lg:gap-16">
+    <section className="flex flex-wrap items-start justify-center gap-4 rounded-2xl bg-white/50 p-4 backdrop-blur-lg dark:bg-zinc-900 sm:p-8 md:gap-8 lg:gap-16 xl:flex-nowrap">
       <div className="flex w-full max-w-xl flex-col flex-wrap gap-4">
         <h1 className="text-2xl font-bold sm:text-2xl md:text-5xl">
           Soil Nutrient Analysis & Crop Prediction
@@ -389,9 +389,9 @@ export default function Home() {
 
       {hasPrediction && !loading && (
         <div
-          className={`flex w-full flex-col flex-wrap gap-4 rounded-2xl bg-white/60 p-4 backdrop-blur-lg dark:bg-zinc-800 sm:p-6`}
+          className={`flex w-full flex-col flex-wrap gap-4 rounded-2xl bg-white/60 p-4 backdrop-blur-lg dark:bg-zinc-800 sm:p-6 `}
         >
-          <div className="flex flex-row flex-wrap">
+          <div className="flex h-max flex-row flex-wrap">
             <PlantRecomendation prediction={prediction} />
             <PredictNutritientLevels prediction={prediction} />
           </div>

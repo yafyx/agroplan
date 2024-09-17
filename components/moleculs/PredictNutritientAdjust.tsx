@@ -17,6 +17,46 @@ type PredictNutritientAdjustProps = {
 const PredictNutritientAdjust: FC<PredictNutritientAdjustProps> = ({
   prediction,
 }) => {
+  const recommendations = [
+    {
+      label: "N",
+      value: prediction.recommendations?.N?.toFixed(2),
+      satuan: "ppm",
+    },
+    {
+      label: "pH",
+      value: prediction.recommendations?.ph?.toFixed(2),
+      satuan: "",
+    },
+    {
+      label: "P",
+      value: prediction.recommendations?.P?.toFixed(2),
+      satuan: "ppm",
+    },
+    {
+      label: "Temperature",
+      value: prediction.recommendations?.temperature?.toFixed(2),
+      satuan: "°C",
+    },
+
+    {
+      label: "K",
+      value: prediction.recommendations?.K?.toFixed(2),
+      satuan: "ppm",
+    },
+
+    {
+      label: "Humidity",
+      value: prediction.recommendations?.humidity?.toFixed(2),
+      satuan: "%",
+    },
+    {
+      label: "Rainfall",
+      value: prediction.recommendations?.rainfall?.toFixed(2),
+      satuan: "mm",
+    },
+  ];
+
   return (
     <div className="w-full space-y-2 p-2">
       <h1 className="text-2xl font-bold sm:text-xl md:text-2xl lg:text-4xl">
@@ -26,59 +66,27 @@ const PredictNutritientAdjust: FC<PredictNutritientAdjustProps> = ({
         Based on the soil parameters and crop selection, the predicted nutrient
         levels may require adjustment.
       </p>
-      <div className="flex w-full justify-center rounded-lg bg-gray-200 p-2 text-xl font-medium dark:bg-zinc-900/50 sm:p-4 md:w-[60%]">
-        <table className="w-max text-right">
-          <tbody>
-            <tr>
-              <th className="pr-4">N:</th>
-              <td className="text-left text-3xl font-semibold">
-                {prediction.recommendations?.N?.toFixed(2) || "N/A"}{" "}
-                <span className="text-sm font-normal">ppm</span>
-              </td>
-            </tr>
-            <tr>
-              <th className="pr-4">P:</th>
-              <td className="text-left text-3xl font-semibold">
-                {prediction.recommendations?.P?.toFixed(2) || "N/A"}{" "}
-                <span className="text-sm font-normal">ppm</span>
-              </td>
-            </tr>
-            <tr>
-              <th className="pr-4">K:</th>
-              <td className="text-left text-3xl font-semibold">
-                {prediction.recommendations?.K?.toFixed(2) || "N/A"}{" "}
-                <span className="text-sm font-normal">ppm</span>
-              </td>
-            </tr>
-            <tr>
-              <th className="pr-4">Temperature:</th>
-              <td className="text-left text-3xl font-semibold">
-                {prediction.recommendations?.temperature?.toFixed(2) || "N/A"}{" "}
-                <span className="text-sm font-normal">°C</span>
-              </td>
-            </tr>
-            <tr>
-              <th className="pr-4">pH:</th>
-              <td className="text-left text-3xl font-semibold">
-                {prediction.recommendations?.ph?.toFixed(2) || "N/A"}
-              </td>
-            </tr>
-            <tr>
-              <th className="pr-4">Humidity:</th>
-              <td className="text-left text-3xl font-semibold">
-                {prediction.recommendations?.humidity?.toFixed(2) || "N/A"}{" "}
-                <span className="text-sm font-normal">%</span>
-              </td>
-            </tr>
-            <tr>
-              <th className="pr-4">Rainfall:</th>
-              <td className="text-left text-3xl font-semibold">
-                {prediction.recommendations?.rainfall?.toFixed(2) || "N/A"}{" "}
-                <span className="text-sm font-normal">mm</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div className="rounded-lg bg-gray-200 p-2 text-xl font-medium dark:bg-zinc-900/50 sm:p-4 ">
+        <div className="grid grid-cols-1 gap-4 text-sm sm:grid-cols-2 ">
+          {recommendations.map(({ label, value, satuan }) => (
+            <div
+              key={label}
+              className="flex flex-wrap items-center md:text-base lg:text-xl xl:text-2xl"
+            >
+              <span className="w-max pr-2 text-right font-semibold">
+                {label}:
+              </span>
+              <span className="text-xl font-semibold lg:text-2xl xl:text-3xl">
+                {value || "N/A"}{" "}
+                {satuan && (
+                  <span className="text-xs font-normal md:text-sm lg:text-base xl:text-xl">
+                    {satuan}
+                  </span>
+                )}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
