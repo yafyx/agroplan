@@ -389,7 +389,7 @@ export default function Home() {
 
       {hasPrediction && !loading && (
         <div
-          className={`flex w-full flex-col flex-wrap gap-4 rounded-2xl bg-white/60 p-4 backdrop-blur-lg dark:bg-zinc-800 sm:p-6 `}
+          className={`flex w-full flex-col flex-wrap rounded-2xl bg-white/60 p-4 backdrop-blur-lg dark:bg-zinc-800 sm:p-6 `}
         >
           <div className="flex h-max flex-row flex-wrap">
             <PlantRecomendation prediction={prediction} />
