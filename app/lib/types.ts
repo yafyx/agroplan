@@ -1,4 +1,5 @@
 export interface Prediction {
+    mean_values: { N: number; P: number; K: number; temperature: number; ph: number; humidity: number; rainfall: number; };
     recommendations: {
         N: number;
         P: number;

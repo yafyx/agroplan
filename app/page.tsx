@@ -5,6 +5,11 @@ import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
 import React, { useState } from "react";
 import { cropOptions, inputOptions } from "@/app/lib/data";
 import { Prediction } from "@/app/lib/types";
+import PredictNutritientLevels from "@/components/moleculs/PredictNutritientLevels";
+import PlantRecomendation from "@/components/moleculs/PlantRecomendation";
+import NutrientSurplusDeficit from "@/components/moleculs/NutrientSurplusDeficit";
+import AdditionalFertilizerRecomendation from "@/components/moleculs/AdditionalFertilizerRecomendation";
+import PredictNutritientAdjust from "@/components/moleculs/PredictNutritientAdjust";
 
 export default function Home() {
   const [n, setN] = useState("");
@@ -20,6 +25,15 @@ export default function Home() {
   const [crop, setCrop] = useState("");
   const [prediction, setPrediction] = useState<Prediction>({
     recommendations: {
+      N: 0,
+      P: 0,
+      K: 0,
+      temperature: 0,
+      ph: 0,
+      humidity: 0,
+      rainfall: 0,
+    },
+    mean_values: {
       N: 0,
       P: 0,
       K: 0,
@@ -95,22 +109,19 @@ export default function Home() {
       humidity: parseFloat(humidity),
       rainfall: parseFloat(rainfall),
       selected_crop: String(crop),
-      N_leafSap: parseFloat(N_leafSap),
-      P_leafSap: parseFloat(P_leafSap),
-      K_leafSap: parseFloat(K_leafSap),
+      N_leafSap: parseFloat(N_leafSap) || 0,
+      P_leafSap: parseFloat(P_leafSap) || 0,
+      K_leafSap: parseFloat(K_leafSap) || 0,
     };
 
     try {
-      const response = await fetch(
-        "https://agroplan-api.up.railway.app/api/predict",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
+      const response = await fetch("http://127.0.0.1:5000/api/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(data),
+      });
 
       const result = await response.json();
 
@@ -119,7 +130,7 @@ export default function Home() {
     } catch (error) {
       setError("Failed to fetch prediction. Please try again.");
     } finally {
-      // console.log(prediction.comparisons);
+      console.log(prediction);
       setLoading(false);
     }
   };
@@ -378,200 +389,16 @@ export default function Home() {
           className={`flex w-full flex-col flex-wrap gap-4 rounded-2xl bg-white/60 p-4 backdrop-blur-lg dark:bg-zinc-800 sm:p-6`}
         >
           <div className="flex flex-row flex-wrap">
-            <div className="w-full space-y-2 p-2 lg:w-1/2">
-              <h1 className="text-2xl font-bold sm:text-xl md:text-2xl lg:text-4xl">
-                Plant Recommendation
-              </h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
-                Based on the soil and parameters and crop collection data, the
-                plant recommendation is:
-              </p>
-              <div className="rounded-lg bg-gray-200 p-4 dark:bg-zinc-900/50">
-                <span className="text-3xl font-bold capitalize underline underline-offset-4">
-                  {prediction.crop_prediction}
-                </span>
-              </div>
-              <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
-                Using the KNN classifier, the accuracy of the prediction is:
-              </p>
-              <div className="rounded-lg bg-gray-200 p-4 dark:bg-zinc-900/50">
-                <p className="flex justify-between">
-                  <span>KNN Accuracy:</span>
-                  <span className="text-green-500">
-                    {prediction.knn_accuracy?.toFixed(2)} %
-                  </span>
-                </p>
-                <p className="flex justify-between">
-                  <span className="italic">knn_train_accuracy:</span>
-                  <span className="text-green-500">
-                    {prediction.knn_train_accuracy?.toFixed(2)} %
-                  </span>
-                </p>
-                <p className="flex justify-between">
-                  <span className="italic">knn_test_accuracy:</span>
-                  <span className="text-green-500">
-                    {prediction.knn_test_accuracy?.toFixed(2)} %
-                  </span>
-                </p>
-              </div>
-            </div>
-            <div className="w-full space-y-2 p-2 lg:w-1/2">
-              <h1 className="text-2xl font-bold sm:text-xl md:text-2xl lg:text-4xl">
-                Predicted Nutrient Levels
-              </h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
-                Based on the soil parameters and crop selection, the predicted
-                levels are:
-              </p>
-              <div className="rounded-lg bg-gray-200 p-2 text-xl font-medium dark:bg-zinc-900/50 sm:p-4">
-                <div>
-                  N:{" "}
-                  <span className="text-3xl font-semibold">
-                    {prediction.recommendations?.N?.toFixed(2) || "N/A"}
-                    <span className="text-sm font-normal"> ppm</span>
-                  </span>
-                </div>
-                <div>
-                  P:{" "}
-                  <span className="text-3xl font-semibold">
-                    {prediction.recommendations?.P?.toFixed(2) || "N/A"}
-                    <span className="text-sm font-normal"> ppm</span>
-                  </span>
-                </div>
-                <div>
-                  K:{" "}
-                  <span className="text-3xl font-semibold">
-                    {prediction.recommendations?.K?.toFixed(2) || "N/A"}
-                    <span className="text-sm font-normal"> ppm</span>
-                  </span>
-                </div>
-                <div>
-                  Temperature:{" "}
-                  <span className="text-3xl font-semibold">
-                    {prediction.recommendations?.temperature?.toFixed(2) ||
-                      "N/A"}
-                    <span className="text-sm font-normal"> °C</span>
-                  </span>
-                </div>
-                <div>
-                  pH:{" "}
-                  <span className="text-3xl font-semibold">
-                    {prediction.recommendations?.ph?.toFixed(2) || "N/A"}
-                  </span>
-                </div>
-                <div>
-                  Humidity:{" "}
-                  <span className="text-3xl font-semibold">
-                    {prediction.recommendations?.humidity?.toFixed(2) || "N/A"}
-                    <span className="text-sm font-normal"> %</span>
-                  </span>
-                </div>
-                <div>
-                  Rainfall:{" "}
-                  <span className="text-3xl font-semibold">
-                    {prediction.recommendations?.rainfall?.toFixed(2) || "N/A"}
-                    <span className="text-sm font-normal"> mm</span>
-                  </span>
-                </div>
-              </div>
-            </div>
+            <PlantRecomendation prediction={prediction} />
+            <PredictNutritientLevels prediction={prediction} />
           </div>
-          <div className="space-y-2">
-            <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
-              Based on the predicted nutrient levels and the selected crop (
-              {
-                cropOptions.find((option) => option.value.toString() === crop)
-                  ?.label
-              }
-              ), the following recommendations are provided:
-            </p>
-            <div className="rounded-lg bg-gray-200 p-2 dark:bg-zinc-900/50 sm:p-4">
-              <table className="w-full">
-                <tbody>
-                  <tr className="border-b border-b-black/20 transition-colors dark:border-b-white/20">
-                    <td>Nitrogen (N):</td>
-                    <td
-                      className={`p-2 text-right text-sm sm:text-sm text-${
-                        prediction.comparisons.N.includes("Sufficient")
-                          ? "green"
-                          : "red"
-                      }-500`}
-                    >
-                      {prediction.comparisons.N}
-                    </td>
-                  </tr>
-                  <tr className="border-b border-b-black/20 dark:border-b-white/20">
-                    <td>Phosphorus (P):</td>
-                    <td
-                      className={`p-2 text-right text-sm sm:text-sm text-${
-                        prediction.comparisons.P.includes("Sufficient")
-                          ? "green"
-                          : "red"
-                      }-500`}
-                    >
-                      {prediction.comparisons.P}
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-muted/50 transition-colors">
-                    <td>Potassium (K):</td>
-                    <td
-                      className={`p-2 text-right text-sm sm:text-sm text-${
-                        prediction.comparisons.K.includes("Sufficient")
-                          ? "green"
-                          : "red"
-                      }-500`}
-                    >
-                      {prediction.comparisons.K}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <div className="inline-flex w-full flex-wrap ">
+            <PredictNutritientAdjust prediction={prediction} />
           </div>
-          <div className="space-y-2">
-            <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
-              Additional Fertilizer Recomendation :
-            </p>
-            <div className="rounded-lg bg-gray-200 p-2 dark:bg-zinc-900/50 sm:p-4">
-              <table className="w-full">
-                <tbody>
-                  {parseFloat(dataAdditionalFertilizer.Urea) < 0 && (
-                    <tr className="border-b border-b-black/20 dark:border-b-white/20">
-                      <td>UREA :</td>
-                      <td className="text p-2 text-right text-sm sm:text-sm">
-                        {parseFloat(dataAdditionalFertilizer.Urea)
-                          ? parseFloat(dataAdditionalFertilizer.Urea) * -1 +
-                            " kg/Ha"
-                          : ""}
-                      </td>
-                    </tr>
-                  )}
-                  {parseFloat(dataAdditionalFertilizer.SP_36) < 0 && (
-                    <tr className="border-b border-b-black/20 dark:border-b-white/20">
-                      <td>SP_36</td>
-                      <td className="text p-2 text-right text-sm sm:text-sm">
-                        {parseFloat(dataAdditionalFertilizer.SP_36)
-                          ? parseFloat(dataAdditionalFertilizer.SP_36) * -1 +
-                            " kg/Ha"
-                          : ""}
-                      </td>
-                    </tr>
-                  )}
-                  {parseFloat(dataAdditionalFertilizer.MOP) < 0 && (
-                    <tr>
-                      <td>MOP:</td>
-                      <td className="text p-2 text-right text-sm sm:text-sm">
-                        {parseFloat(dataAdditionalFertilizer.MOP)
-                          ? parseFloat(dataAdditionalFertilizer.MOP) * -1 +
-                            " kg/Ha"
-                          : ""}
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <NutrientSurplusDeficit prediction={prediction} crop={crop} />
+          <AdditionalFertilizerRecomendation
+            dataAdditionalFertilizer={dataAdditionalFertilizer}
+          />
         </div>
       )}
     </section>
