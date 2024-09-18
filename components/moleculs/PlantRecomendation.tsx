@@ -39,29 +39,29 @@ const PlantRecomendation: FC<PlantRecomendationProps> = ({ prediction }) => {
         recommendation is:
       </p>
       <div className="rounded-lg bg-gray-200 p-4 dark:bg-zinc-900/50">
-        <span className="font-b old text-2xl capitalize underline underline-offset-4 lg:text-3xl xl:text-4xl">
+        <span className="text-2xl font-bold capitalize underline underline-offset-4 xl:text-4xl">
           {prediction.crop_prediction}
         </span>
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
         Using the KNN classifier, the accuracy of the prediction is:
       </p>
-      <div className="h-max rounded-lg bg-gray-200 p-2 text-sm dark:bg-zinc-900/50 md:p-4 md:text-lg lg:text-xl xl:py-8">
+      <div className="h-max rounded-lg bg-gray-200 p-4 text-sm dark:bg-zinc-900/50 md:p-4 lg:text-lg xl:py-8">
         <p className="flex flex-wrap justify-between">
           <span>KNN Accuracy:</span>
-          <span className="text-green-500">
+          <span className="text-lg font-semibold text-green-500 lg:text-xl">
             {prediction.knn_accuracy?.toFixed(2)} %
           </span>
         </p>
         <p className="flex flex-wrap justify-between">
           <span className="italic">knn_train_accuracy:</span>
-          <span className="text-green-500">
+          <span className="text-lg font-semibold text-green-500 lg:text-xl">
             {prediction.knn_train_accuracy?.toFixed(2)} %
           </span>
         </p>
         <p className="flex flex-wrap justify-between">
           <span className="italic">knn_test_accuracy:</span>
-          <span className="text-green-500">
+          <span className="text-lg font-semibold text-green-500 lg:text-xl">
             {prediction.knn_test_accuracy?.toFixed(2)} %
           </span>
         </p>

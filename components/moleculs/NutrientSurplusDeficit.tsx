@@ -18,7 +18,7 @@ const NutrientSurplusDeficit: FC<NutrientSurplusDeficitProps> = ({
 }) => {
   return (
     <>
-      <div className="space-y-2 lg:text-xl">
+      <div className="space-y-2 p-2 lg:text-lg">
         <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
           Based on the predicted nutrient levels and the selected crop (
           {
@@ -27,13 +27,13 @@ const NutrientSurplusDeficit: FC<NutrientSurplusDeficitProps> = ({
           }
           ), the following recommendations are provided:
         </p>
-        <div className="rounded-lg bg-gray-200 p-2 dark:bg-zinc-900/50 sm:p-4">
+        <div className="rounded-lg bg-gray-200 p-4 dark:bg-zinc-900/50 sm:p-4">
           <table className="w-full">
             <tbody>
               <tr className="border-b border-b-black/20 transition-colors dark:border-b-white/20">
                 <td>Nitrogen (N):</td>
                 <td
-                  className={`p-2 text-right text-sm lg:text-lg text-${
+                  className={`p-2 text-right text-xs lg:text-base text-${
                     prediction.comparisons.N.includes("Sufficient")
                       ? "green"
                       : "red"
@@ -45,7 +45,7 @@ const NutrientSurplusDeficit: FC<NutrientSurplusDeficitProps> = ({
               <tr className="border-b border-b-black/20 dark:border-b-white/20">
                 <td>Phosphorus (P):</td>
                 <td
-                  className={`p-2 text-right text-sm lg:text-lg text-${
+                  className={`p-2 text-right text-xs lg:text-base text-${
                     prediction.comparisons.P.includes("Sufficient")
                       ? "green"
                       : "red"
@@ -57,7 +57,7 @@ const NutrientSurplusDeficit: FC<NutrientSurplusDeficitProps> = ({
               <tr className="hover:bg-muted/50 transition-colors">
                 <td>Potassium (K):</td>
                 <td
-                  className={`p-2 text-right text-sm lg:text-lg text-${
+                  className={`p-2 text-right text-xs lg:text-base text-${
                     prediction.comparisons.K.includes("Sufficient")
                       ? "green"
                       : "red"

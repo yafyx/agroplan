@@ -64,20 +64,14 @@ const PredictNutritientLevels: FC<PredictNutritientLevelsProps> = ({
         Based on the soil parameters and crop selection, the predicted levels
         are:
       </p>
-      <div className="rounded-lg bg-gray-200 p-2 text-xl font-medium dark:bg-zinc-900/50 sm:p-4">
+      <div className="rounded-lg bg-gray-200 p-4 text-xl dark:bg-zinc-900/50 sm:p-4">
         {mean_values.map((item, index) => (
-          <div
-            key={index}
-            className="text-sm md:text-base lg:text-xl xl:text-2xl"
-          >
+          <div key={index} className="text-sm lg:text-xl">
             {item.label + ":"}{" "}
-            <span className="text-xl font-semibold lg:text-2xl xl:text-3xl">
+            <span className="text-xl font-semibold xl:text-3xl">
               {item.value || "N/A"}
-              <span className="text-xs font-normal md:text-sm lg:text-base xl:text-xl">
-                {" "}
-                {item.satuan}
-              </span>
             </span>
+            <span className="text-xs md:text-base"> {item.satuan}</span>
           </div>
         ))}
       </div>
