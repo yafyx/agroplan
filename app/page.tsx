@@ -115,16 +115,13 @@ export default function Home() {
     };
 
     try {
-      const response = await fetch(
-        "https://agroplan-api.up.railway.app/api/predict",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
+      const response = await fetch("http://127.0.0.1:5000/api/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(data),
+      });
 
       const result = await response.json();
 
@@ -177,9 +174,9 @@ export default function Home() {
   };
 
   const dataAdditionalFertilizer = {
-    Urea: ((100 / 46) * prediction.comparisons_value.N * 2.4).toFixed(2),
-    SP_36: ((100 / 36) * prediction.comparisons_value.P * 2.4).toFixed(2),
-    MOP: ((100 / 60) * prediction.comparisons_value.K * 2.4).toFixed(2),
+    Urea: ((100 / 46) * prediction.comparisons_value.N * 2.24).toFixed(2),
+    SP_36: ((100 / 36) * prediction.comparisons_value.P * 2.24).toFixed(2),
+    MOP: ((100 / 60) * prediction.comparisons_value.K * 2.24).toFixed(2),
   };
 
   return (
