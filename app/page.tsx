@@ -141,7 +141,7 @@ export default function Home() {
   const getDataThingspeak = async () => {
     try {
       const response = await fetch(
-        "https://api.thingspeak.com/channels/2321454/feeds.json?results=1",
+        "https://api.thingspeak.com/channels/2629109/feeds.json?results=1",
       );
 
       if (!response.ok) {
