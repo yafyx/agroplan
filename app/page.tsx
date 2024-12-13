@@ -116,7 +116,7 @@ export default function Home() {
 
     try {
       const response = await fetch(
-        "https://agroplan-api.up.railway.app/api/predict",
+        "agroplan-api-production.up.railway.app/api/predict",
         {
           method: "POST",
           headers: {
@@ -183,13 +183,13 @@ export default function Home() {
   };
 
   return (
-    <section className="flex flex-wrap items-start justify-center gap-4 rounded-2xl bg-white/50 p-4 backdrop-blur-lg dark:bg-zinc-900 sm:p-8 md:gap-8 lg:gap-16 xl:flex-nowrap">
-      <div className="flex w-full max-w-xl flex-col flex-wrap gap-4">
+    <section className="flex flex-wrap items-start justify-center gap-4 p-4 rounded-2xl bg-white/50 backdrop-blur-lg dark:bg-zinc-900 sm:p-8 md:gap-8 lg:gap-16 xl:flex-nowrap">
+      <div className="flex flex-col flex-wrap w-full max-w-xl gap-4">
         <h1 className="text-2xl font-bold sm:text-2xl md:text-5xl">
           Soil Nutrient Analysis & Crop Prediction
         </h1>
-        <div className="relative space-y-2 border-e border-neutral-700 pr-4 md:border-e-0">
-          <div className="absolute -right-4 -top-0 flex h-8 w-8 items-center justify-center rounded-full bg-black font-bold text-white sm:hidden">
+        <div className="relative pr-4 space-y-2 border-e border-neutral-700 md:border-e-0">
+          <div className="absolute flex items-center justify-center w-8 h-8 font-bold text-white bg-black rounded-full -right-4 -top-0 sm:hidden">
             1
           </div>
           <p className="text-gray-500 dark:text-gray-400">
@@ -247,10 +247,10 @@ export default function Home() {
         </div>
 
         <div className="relative grid gap-4 sm:grid-cols-2">
-          <div className="absolute -right-4 -top-0 flex h-8 w-8 items-center justify-center rounded-full bg-black font-bold text-white sm:hidden">
+          <div className="absolute flex items-center justify-center w-8 h-8 font-bold text-white bg-black rounded-full -right-4 -top-0 sm:hidden">
             2
           </div>
-          <div className="space-y-4 border-r border-r-black/20 pr-4 dark:border-r-white/20">
+          <div className="pr-4 space-y-4 border-r border-r-black/20 dark:border-r-white/20">
             <div className="space-y-8">
               <p className="text-gray-500 dark:text-gray-400">Environment</p>
               <Input
@@ -339,9 +339,9 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className="relative space-y-8 border-e border-neutral-700 pr-4 md:border-e-0">
+          <div className="relative pr-4 space-y-8 border-e border-neutral-700 md:border-e-0">
             <p className="text-gray-500 dark:text-gray-400">Leaf Sap</p>
-            <div className="absolute -right-4 -top-8 flex h-8 w-8 items-center justify-center rounded-full bg-black font-bold text-white sm:hidden">
+            <div className="absolute flex items-center justify-center w-8 h-8 font-bold text-white bg-black rounded-full -right-4 -top-8 sm:hidden">
               3
             </div>
             <Input
@@ -380,7 +380,7 @@ export default function Home() {
         {error && <p className="font-semibold text-red-500">{error}</p>}
         <Button
           isLoading={loading}
-          className="w-full bg-black text-white dark:bg-white dark:text-black"
+          className="w-full text-white bg-black dark:bg-white dark:text-black"
           onPress={handleSubmit}
         >
           Predict
@@ -391,11 +391,11 @@ export default function Home() {
         <div
           className={`flex w-full flex-col flex-wrap rounded-2xl bg-white/60 p-4 backdrop-blur-lg dark:bg-zinc-800 sm:p-6 `}
         >
-          <div className="flex h-max flex-row flex-wrap">
+          <div className="flex flex-row flex-wrap h-max">
             <PlantRecomendation prediction={prediction} />
             <PredictNutritientLevels prediction={prediction} />
           </div>
-          <div className="inline-flex w-full flex-wrap ">
+          <div className="inline-flex flex-wrap w-full ">
             <PredictNutritientAdjust prediction={prediction} />
           </div>
           <NutrientSurplusDeficit prediction={prediction} crop={crop} />
