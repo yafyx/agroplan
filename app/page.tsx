@@ -116,7 +116,7 @@ export default function Home() {
 
     try {
       const response = await fetch(
-        "agroplan-api-production.up.railway.app/api/predict",
+        "https://agroplan-api-production.up.railway.app/api/predict",
         {
           method: "POST",
           headers: {
